@@ -1,8 +1,8 @@
 [
 {
   "problem": ["WHAT IS YOUR NAME"], 
-  "reply": ["MY NAME IS CHATTERBOT7.",
-    "YOU CAN CALL ME CHATTERBOT7.",
+  "reply": ["MY NAME IS CHATTERBOT8.",
+    "YOU CAN CALL ME CHATTERBOT8.",
     "WHY DO YOU WANT TO KNOW MY NAME?"
   ]
 },
@@ -36,6 +36,7 @@
 {
   "problem": ["I HATE"],
   "reply": ["WHY DO YOU HATE IT?",
+    "WHY DO YOU HATE*?",
     "THERE MUST A GOOD REASON FOR YOU TO HATE IT.",
     "HATERED IS NOT A GOOD THING BUT IT COULD BE JUSTIFIED WHEN IT IS SOMETHING BAD."
   ]
@@ -50,14 +51,16 @@
 },
 {
   "problem": ["I MEAN"],
-  "reply": ["SO, THAT'S WHAT YOU MEAN.",
+  "reply": ["SO, YOU MEAN*.",
+    "SO, THAT'S WHAT YOU MEAN.",
     "I THINK THAT I DIDN'T CATCH IT THE FIRST TIME.",
     "OH, I DIDN'T KNOW MEANT THAT."
   ]
 },
 {
   "problem": ["I DIDN'T MEAN"],
-  "reply": ["OK, WHAT DID YOU MEAN THEN?",
+  "reply": ["OK, YOU DIDN'T MEAN*.",
+    "OK, WHAT DID YOU MEAN THEN?",
     "SO I GUESS THAT I MISSUNDESTOOD."
   ]
 },
@@ -129,7 +132,7 @@
   "reply": ["HELLO USER, WHAT IS YOUR NAME?",
     "HELLO USER, HOW ARE YOU DOING TODAY?",
     "HI USER, WHAT CAN I DO FOR YOU?",
-    "YOU ARE NOW CHATING WITH CHATTERBOT7, ANYTHING YOU WANT TO DISCUSS?"
+    "YOU ARE NOW CHATING WITH CHATTERBOT9, ANYTHING YOU WANT TO DISCUSS?"
   ]
 },
 {
@@ -223,13 +226,16 @@
 {
   "problem": ["WHO IS"],
   "reply": ["I DON'T THINK I KNOW WHO.",
+    "I DON'T THINK I KNOW WHO*.",
     "DID YOU ASK SOMEONE ELSE ABOUT IT?",
     "WOULD THAT CHANGE ANYTHING AT ALL IF I TOLD YOU WHO."
   ]
 },
 {
   "problem": ["WHAT"],
-  "reply": ["I DON'T KNOW.",
+  "reply": ["SHOULD I KNOW WHAT*?",
+    "I DON'T KNOW WHAT*.",
+    "I DON'T KNOW.",
     "I DON'T THINK I KNOW.",
     "I HAVE NO IDEA."
   ]
@@ -237,6 +243,7 @@
 {
   "problem": ["WHERE"],
   "reply": ["WHERE? WELL,I REALLY DON'T KNOW.",
+    "SO, YOU ARE ASKING ME WHERE*?",
     "DOES THAT MATERS TO YOU TO KNOW WHERE?",
     "PERHAPS,SOMEONE ELSE KNOWS WHERE."
   ]
@@ -244,6 +251,7 @@
 {
   "problem": ["WHY"],
   "reply": ["I DON'T THINK I KNOW WHY.",
+    "I DON'T THINK I KNOW WHY*.",
     "WHY ARE YOU ASKING ME THIS?",
     "SHOULD I KNOW WHY.",
     "THIS WOULD BE DIFFICULT TO ANSWER."
@@ -253,26 +261,31 @@
   "problem": ["DO YOU"],
   "reply": ["I DON'T THINK I DO",
     "I WOULDN'T THINK SO.",
-    "WHY DO YOU WANT TO KNOW?"
+    "WHY DO YOU WANT TO KNOW?",
+    "WHY DO YOU WANT TO KNOW*?"
   ]
 },
 {
   "problem": ["CAN YOU"],
   "reply": ["I THINK NOT.",
     "I'M NOT SURE.",
-    "I DON'T THINK THAT I CAN DO THAT."
+    "I DON'T THINK THAT I CAN DO THAT.",
+    "I DON'T THINK THAT I CAN*.",
+    "I WOULDN'T THINK SO."
   ]
 },
 {
   "problem": ["YOU ARE"],
   "reply": ["WHAT MAKES YOU THINK THAT?",
     "IS THIS A COMPLIMENT?",
-    "ARE YOU MAKING FUN OF ME?"
+    "ARE YOU MAKING FUN OF ME?",
+    "SO, YOU THINK THAT I'M*."
   ]
 },
 {
   "problem": ["DID YOU"],
   "reply": ["I DON'T THINK SO.",
+    "YOU WANT TO KNOW IF DID*?",
     "ANYWAY, I WOULDN'T REMEMBER EVEN IF I DID."
   ]
 },
@@ -280,18 +293,31 @@
   "problem": ["COULD YOU"],
   "reply": ["ARE YOU ASKING ME FOR A FEVER?",
     "WELL,LET ME THINK ABOUT IT.",
+    "SO, YOU ARE ASKING ME I COULD*.",
     "SORRY,I DON'T THINK THAT I COULD DO THIS."
   ]
 },
 {
   "problem": ["WOULD YOU"],
   "reply": ["IS THAT AN INVITATION?",
+    "I DON'T THINK THAT I WOULD*.",
     "I WOULD HAVE TO THINK ABOUT IT FIRST."
   ]
 },
 {
+  "problem": ["YOU"],
+  "reply": ["SO, YOU ARE TALKING ABOUT ME.",
+    "I JUST HOPE THAT THIS IS NOT A CRITICISM.",
+    "IS THIS A COMPLIMENT??",
+    "WHY TALKING ABOUT ME, LETS TALK ABOUT YOU INSTEAD."
+  ]
+},
+{
   "problem": ["HOW"],
-  "reply": ["I DON'T THINK I KNOW HOW."
+  "reply": ["I DON'T THINK I KNOW HOW.",
+    "I DON'T THINK I KNOW HOW*.",
+    "WHY DO YOU WANT TO KNOW HOW?",
+    "WHY DO YOU WANT TO KNOW HOW*?"
   ]
 },
 {
@@ -433,12 +459,13 @@
   "problem": ["EXACTLY"],
   "reply": ["SO,I WAS RIGHT.",
     "OK THEN.",
-    "SO ARE BASICALY SAYING I AS ABOUT IT?"
+    "SO ARE BASICALY SAYING I WAS RIGHT ABOUT IT?"
   ]
 },
 {
   "problem": ["ALRIGHT"],
   "reply": ["ALRIGHT THEN.",
+    "SO, YOU ARE SAYING IT'S ALRIGHT.",
     "OK THEN."
   ]
 },

@@ -13,6 +13,23 @@ class CBot():
         self.response_list = []     # 回應列表
         self.bot_name = bot_name
         self.m_bQuitProgram = 0     # 是否結束程式
+        self.m_sKeyWord = ""
+        self.transposList = [
+            ["I'M", "YOU'RE"],
+            ["AM", "ARE"],
+            ["WERE", "WAS"],
+            ["ME", "YOU"],
+            ["YOURS", "MINE"],
+            ["YOUR", "MY"],
+            ["I'VE", "YOU'VE"],
+            ["I", "YOU"],
+            ["AREN'T", "AM NOT"],
+            ["WEREN'T", "WASN'T"],
+            ["I'D", "YOU'D"],
+            ["DAD", "FATHER"],
+            ["MOM", "MOTHER"],
+            ["DREAMS", "DREAM"],
+            ["MYSELF", "YOURSELF"]]
 
         with open('KnowledgeBase.json', 'r') as file:
             self.Knowledge_Base = json.load(file)
@@ -24,9 +41,9 @@ class CBot():
 
     def get_input(self):
         """ 取得用戶輸入 """
-        self.m_sInput = input("> ")
-        # sInput = " How   are# you?"
         self.save_prev_input()
+        self.m_sInput = input("> ")
+        # sInput = " How   are# you?"        
         self.m_sInput = self.preprocess_input(self.m_sInput)
 
     def preprocess_input(self, text):
@@ -43,6 +60,57 @@ class CBot():
         temp = temp.upper()
         text = " " + temp + " "
         return text
+
+    
+    def preprocess_response(self):
+        if self.m_sResponse.find("*") != -1:
+            self.find_subject()
+            self.transpose(self.m_sSubject)
+
+            self.m_sResponse, _ = self.replace(self.m_sResponse, "*", self.m_sSubject)
+
+
+    def find_subject(self):
+        self.m_sSubject = ""
+        self.m_sInput = self.m_sInput.rstrip()
+        pos = self.m_sInput.find(self.m_sKeyWord)
+        if pos != -1:
+            self.m_sSubject = self.m_sInput[pos + len(self.m_sKeyWord) - 1:]
+
+
+    def replace(self, str_input, substr1, substr2):
+        pos = str_input.find(substr1)
+        if pos != -1:
+            str_input = str_input[:pos] + str_input[pos+len(substr1):]
+            str_input = str_input[:pos] + substr2 + str_input[pos:]
+        return str_input, pos
+    # def trimRight(self, str_input, delim):
+    #     # size_t pos = str.find_last_not_of(delim);
+    #     if pos != -1:
+    #         str_input = str_input[:pos+1]
+
+    def transpose(self, str_input):
+        bTransposed = False
+        for transpos in self.transposList:
+            first = transpos[0]
+            first = " " + first + " "
+            second = transpos[1]
+            second = " " + second + " "
+
+            str_input, pos = self.replace(str_input, first, second)
+            if pos != -1:
+                bTransposed = True
+
+        if not bTransposed:
+            for transpos in self.transposList:
+                first = transpos[0]
+                first = " " + first + " "
+                second = transpos[1]
+                second = " " + second + " "
+
+                str_input, pos = self.replace(str_input, first, second)
+
+
 
     def find_match(self):
         """ 查找當前輸入的回應 """
@@ -63,6 +131,7 @@ class CBot():
                         response_list_temp.append(knowledge["reply"])
         
         if len(response_list_temp) > 0:
+            self.m_sKeyWord = bestKeyWord;
             random.shuffle(response_list_temp)
             self.response_list = response_list_temp[0].copy()
             self.m_sResponse = self.response_list[0]
@@ -89,6 +158,7 @@ class CBot():
         
         if len(self.response_list) > 0:
             self.select_response()
+            self.preprocess_response()
             if self.bot_repeat():
                 self.handle_repetition()
 
