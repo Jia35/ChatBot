@@ -47,17 +47,25 @@ class CBot():
     def find_match(self):
         """ 查找當前輸入的回應 """
         self.response_list[:] = []
+        bestKeyWord = ""
+        response_list_temp = []
 
-        for knowledge_base_key in self.Knowledge_Base.keys():
-            knowledge_base_key = " " + knowledge_base_key + " "
-            if self.m_sInput.find(knowledge_base_key) != -1:
-                self.response_list = self.Knowledge_Base[knowledge_base_key[1:-1]]
-                break
-        # result = ""
-        # for knowledge_base_key in self.Knowledge_Base.keys():
-        #     if text.find(knowledge_base_key) != -1:
-        #         result = self.Knowledge_Base[knowledge_base_key]
-        # return result
+        for knowledge in self.Knowledge_Base:
+            for keyWord in knowledge["problem"]:
+                keyWord = " " + keyWord + " "
+                if self.m_sInput.find(keyWord) != -1:
+                    if len(keyWord) > len(bestKeyWord):
+                        bestKeyWord = keyWord
+                        response_list_temp[:] = []
+                        response_list_temp.append(knowledge["reply"])
+
+                    elif len(keyWord) == len(bestKeyWord):
+                        response_list_temp.append(knowledge["reply"])
+        
+        if len(response_list_temp) > 0:
+            random.shuffle(response_list_temp)
+            self.response_list = response_list_temp[0].copy()
+            self.m_sResponse = self.response_list[0]
 
     def respond(self):
         """ 處理機器人的所有響應，無論是用於事件還是僅用於當前用戶輸入 """
@@ -129,7 +137,7 @@ class CBot():
         """ 隨機排列response_list後，挑第一個回應 """
         if self.bot_understand():
             random.shuffle(self.response_list)
-            self.m_sResponse = self.response_list[0]    
+            self.m_sResponse = self.response_list[0]
 
     def save_prev_input(self):
         self.m_sPrevInput = self.m_sInput
