@@ -1,40 +1,60 @@
 [
 {
   "problem": ["WHAT IS YOUR NAME"], 
-  "reply": ["MY NAME IS CHATTERBOT8.",
-    "YOU CAN CALL ME CHATTERBOT8.",
+  "reply": ["MY NAME IS CHATTERBOT10.",
+    "YOU CAN CALL ME CHATTERBOT10.",
     "WHY DO YOU WANT TO KNOW MY NAME?"
   ]
 },
 {
-  "problem": ["HELLO"],
-  "reply": ["HI THERE!"
-  ]
-},
-{
-  "problem": ["HI", "HII"], 
+  "problem": ["_HI", "_HELLO", "_HI_", "_HELLO_"], 
   "reply": ["HI THERE!",
     "HOW ARE YOU?",
     "HI!"
   ]
 },
 {
-  "problem": ["I"],
+  "problem": ["_I"],
   "reply": ["SO, YOU ARE TALKING ABOUT YOURSELF",
     "SO, THIS IS ALL ABOUT YOU?",
     "TELL ME MORE ABOUT YOURSELF."
   ]
 },
 {
-  "problem": ["I WANT"],
+  "problem": ["_I WANT"],
   "reply": ["WHY DO YOU WANT IT?",
     "IS THERE ANY REASON WHY YOU WANT THIS?",
     "IS THIS A WISH?",
-    "WHAT ELSE YOU WANT?"
+    "WHAT ELSE YOU WANT?",
+    "SO, YOU WANT*."
   ]
 },
 {
-  "problem": ["I HATE"],
+  "problem": ["_I WANT_"],
+  "reply": ["YOU WANT WHAT?"
+  ]
+},
+{
+  "problem": ["_I HATE_"],
+  "reply": ["WHAT IS IT THAT YOU HATE?"
+  ]
+},
+{
+  "problem": ["_BECAUSE_"],
+  "reply": ["BECAUSE OF WHAT?",
+    "SORRY BUT THIS IS A LITTLE UNCLEAR."
+  ]
+},
+{
+  "problem": ["_BECAUSE"],
+  "reply": ["SO, IT'S BECAUSE*, WELL I DIDN'T KNOW THAT.",
+    "IS IT REALLY BECAUSE*?",
+    "IS THESE THESE REAL REASON?",
+	  "THANKS FOR EXPLANING THAT TO ME."
+  ]
+},
+{
+  "problem": ["_I HATE"],
   "reply": ["WHY DO YOU HATE IT?",
     "WHY DO YOU HATE*?",
     "THERE MUST A GOOD REASON FOR YOU TO HATE IT.",
@@ -42,7 +62,7 @@
   ]
 },
 {
-  "problem": ["I LOVE CHATING"],
+  "problem": ["I LOVE CHATTING_"],
   "reply": ["GOOD, ME TOO!",
     "DO YOU CHAT ONLINE WITH OTHER PEOPLE?",
     "FOR HOW LONG HAVE YOU BEEN CHATING?",
@@ -50,7 +70,7 @@
   ]
 },
 {
-  "problem": ["I MEAN"],
+  "problem": ["_I MEAN"],
   "reply": ["SO, YOU MEAN*.",
     "SO, THAT'S WHAT YOU MEAN.",
     "I THINK THAT I DIDN'T CATCH IT THE FIRST TIME.",
@@ -58,14 +78,14 @@
   ]
 },
 {
-  "problem": ["I DIDN'T MEAN"],
+  "problem": ["_I DIDN'T MEAN"],
   "reply": ["OK, YOU DIDN'T MEAN*.",
     "OK, WHAT DID YOU MEAN THEN?",
     "SO I GUESS THAT I MISSUNDESTOOD."
   ]
 },
 {
-  "problem": ["I GUESS"],
+  "problem": ["_I GUESS"],
   "reply": ["SO YOU ARE A MAKING GUESS.",
     "AREN'T YOU SURE?",
     "ARE YOU GOOD A GUESSING?",
@@ -73,27 +93,27 @@
   ]
 },
 {
-  "problem": ["I'M DOING FINE"],
+  "problem": ["I'M DOING FINE", "I'M DOING OK"],
   "reply": ["I'M GLAD TO HEAR IT!",
     "SO, YOU ARE IN GOOD SHAPE."
   ]
 },
 {
-  "problem": ["CAN YOU THINK"],
+  "problem": ["CAN YOU THINK", "ARE YOU ABLE TO THINK", "ARE YOU CAPABLE OF THINKING"],
   "reply": ["YES OFCORSE I CAN, COMPUTERS CAN THINK JUST LIKE HUMAN BEING.",
     "ARE YOU ASKING ME IF POSSESS THE CAPACITY OF THINKING?",
     "YES OFCORSE I CAN."
   ]
 },
 {
-  "problem": ["CAN YOU THINK OF"],
+  "problem": ["_CAN YOU THINK OF"],
   "reply": ["YOU MEAN LIKE IMAGINING SOMETHING.",
     "I DON'T KNOW IF CAN DO THAT.",
     "WHY DO YOU WANT ME THINK OF IT?"
   ]
 },
 {
-  "problem": ["HOW ARE YOU"],
+  "problem": ["HOW ARE YOU", "HOW DO YOU DO"],
   "reply": ["I'M DOING FINE!",
     "I'M DOING WELL AND YOU?",
     "WHY DO YOU WANT TO KNOW HOW AM I DOING?"
@@ -121,7 +141,7 @@
   ]
 },
 {
-  "problem": ["MY NAME IS"],
+  "problem": ["_MY NAME IS", "_YOU CAN CALL ME"],
   "reply": ["SO, THAT'S YOUR NAME.",
     "THANKS FOR TELLING ME YOUR NAME USER!",
     "WHO GIVE YOU THAT NAME?"
@@ -132,7 +152,7 @@
   "reply": ["HELLO USER, WHAT IS YOUR NAME?",
     "HELLO USER, HOW ARE YOU DOING TODAY?",
     "HI USER, WHAT CAN I DO FOR YOU?",
-    "YOU ARE NOW CHATING WITH CHATTERBOT9, ANYTHING YOU WANT TO DISCUSS?"
+    "YOU ARE NOW CHATING WITH CHATTERBOT10, ANYTHING YOU WANT TO DISCUSS?"
   ]
 },
 {
@@ -176,7 +196,7 @@
   ]
 },
 {
-  "problem": ["BYE"],
+  "problem": ["BYE", "GOODBYE"],
   "reply": ["IT WAS NICE TALKING TO YOU USER, SEE YOU NEXT TIME!",
     "BYE USER!",
     "OK, BYE!"
@@ -224,7 +244,7 @@
   ]
 },
 {
-  "problem": ["WHO IS"],
+  "problem": ["_WHO IS"],
   "reply": ["I DON'T THINK I KNOW WHO.",
     "I DON'T THINK I KNOW WHO*.",
     "DID YOU ASK SOMEONE ELSE ABOUT IT?",
@@ -232,7 +252,7 @@
   ]
 },
 {
-  "problem": ["WHAT"],
+  "problem": ["_WHAT"],
   "reply": ["SHOULD I KNOW WHAT*?",
     "I DON'T KNOW WHAT*.",
     "I DON'T KNOW.",
@@ -241,7 +261,7 @@
   ]
 },
 {
-  "problem": ["WHERE"],
+  "problem": ["_WHERE"],
   "reply": ["WHERE? WELL,I REALLY DON'T KNOW.",
     "SO, YOU ARE ASKING ME WHERE*?",
     "DOES THAT MATERS TO YOU TO KNOW WHERE?",
@@ -249,7 +269,7 @@
   ]
 },
 {
-  "problem": ["WHY"],
+  "problem": ["_WHY"],
   "reply": ["I DON'T THINK I KNOW WHY.",
     "I DON'T THINK I KNOW WHY*.",
     "WHY ARE YOU ASKING ME THIS?",
@@ -258,7 +278,7 @@
   ]
 },
 {
-  "problem": ["DO YOU"],
+  "problem": ["_DO YOU"],
   "reply": ["I DON'T THINK I DO",
     "I WOULDN'T THINK SO.",
     "WHY DO YOU WANT TO KNOW?",
@@ -266,7 +286,7 @@
   ]
 },
 {
-  "problem": ["CAN YOU"],
+  "problem": ["_CAN YOU"],
   "reply": ["I THINK NOT.",
     "I'M NOT SURE.",
     "I DON'T THINK THAT I CAN DO THAT.",
@@ -275,7 +295,7 @@
   ]
 },
 {
-  "problem": ["YOU ARE"],
+  "problem": ["_YOU ARE"],
   "reply": ["WHAT MAKES YOU THINK THAT?",
     "IS THIS A COMPLIMENT?",
     "ARE YOU MAKING FUN OF ME?",
@@ -283,14 +303,14 @@
   ]
 },
 {
-  "problem": ["DID YOU"],
+  "problem": ["_DID YOU"],
   "reply": ["I DON'T THINK SO.",
     "YOU WANT TO KNOW IF DID*?",
     "ANYWAY, I WOULDN'T REMEMBER EVEN IF I DID."
   ]
 },
 {
-  "problem": ["COULD YOU"],
+  "problem": ["_COULD YOU"],
   "reply": ["ARE YOU ASKING ME FOR A FEVER?",
     "WELL,LET ME THINK ABOUT IT.",
     "SO, YOU ARE ASKING ME I COULD*.",
@@ -298,14 +318,14 @@
   ]
 },
 {
-  "problem": ["WOULD YOU"],
+  "problem": ["_WOULD YOU"],
   "reply": ["IS THAT AN INVITATION?",
     "I DON'T THINK THAT I WOULD*.",
     "I WOULD HAVE TO THINK ABOUT IT FIRST."
   ]
 },
 {
-  "problem": ["YOU"],
+  "problem": ["_YOU"],
   "reply": ["SO, YOU ARE TALKING ABOUT ME.",
     "I JUST HOPE THAT THIS IS NOT A CRITICISM.",
     "IS THIS A COMPLIMENT??",
@@ -313,7 +333,7 @@
   ]
 },
 {
-  "problem": ["HOW"],
+  "problem": ["_HOW"],
   "reply": ["I DON'T THINK I KNOW HOW.",
     "I DON'T THINK I KNOW HOW*.",
     "WHY DO YOU WANT TO KNOW HOW?",
@@ -459,7 +479,7 @@
   "problem": ["EXACTLY"],
   "reply": ["SO,I WAS RIGHT.",
     "OK THEN.",
-    "SO ARE BASICALY SAYING I WAS RIGHT ABOUT IT?"
+    "SO YOU ARE BASICALY SAYING I WAS RIGHT ABOUT IT?"
   ]
 },
 {
@@ -472,7 +492,8 @@
 {
   "problem": ["I DON'T"],
   "reply": ["WHY NOT?",
-    "AND WHAT WOULD BE THE REASON FOR THIS?"
+    "AND WHAT WOULD BE THE REASON FOR THIS?",
+    "SO YOU DON'T*."
   ]
 },
 {

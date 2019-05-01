@@ -112,6 +112,17 @@ class CBot():
 
 
 
+    def wrong_location(self, keyword, firstChar, lastChar, pos):
+        bWrongPos = False
+        pos += len(keyword)
+        if ( (firstChar == '_' and lastChar == '_' and self.m_sInput != keyword) or
+             (firstChar != '_' and lastChar == '_' and pos != len(self.m_sInput)) or
+             (firstChar == '_' and lastChar != '_' and pos == len(self.m_sInput)) ):
+            bWrongPos = True
+        return bWrongPos
+
+
+
     def find_match(self):
         """ 查找當前輸入的回應 """
         self.response_list[:] = []
@@ -120,8 +131,18 @@ class CBot():
 
         for knowledge in self.Knowledge_Base:
             for keyWord in knowledge["problem"]:
+                firstChar = keyWord[0]
+                lastChar = keyWord[-1]
+                keyWord = keyWord.strip("_")
+
                 keyWord = " " + keyWord + " "
-                if self.m_sInput.find(keyWord) != -1:
+
+                keyPos = self.m_sInput.find(keyWord)
+
+                if keyPos != -1:
+                    if self.wrong_location(keyWord, firstChar, lastChar, keyPos):
+                        continue
+
                     if len(keyWord) > len(bestKeyWord):
                         bestKeyWord = keyWord
                         response_list_temp[:] = []
