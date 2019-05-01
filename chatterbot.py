@@ -2,8 +2,9 @@ from cbot import CBot
 
 
 try:
-    bot = CBot("chatterbot")
+    bot = CBot("Chatterbot6")
 
+    bot.signon()
     while not bot.bot_quit():
         bot.get_input()
         bot.respond()

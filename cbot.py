@@ -9,12 +9,18 @@ class CBot():
         self.m_sResponse = ""   # 回應
         self.m_sPreviousInput = ""      # 前一個輸入
         self.m_sPreviousResponse = ""   # 前一個回應
+        self.m_sEvent = ""
         self.response_list = []     # 回應列表
         self.bot_name = bot_name
         self.m_bQuitProgram = 0     # 是否結束程式
 
         with open('KnowledgeBase.json', 'r') as file:
             self.Knowledge_Base = json.load(file)
+
+    def signon(self):
+        self.handle_event("SIGNON")
+        self.select_response()
+        self.print_response()
 
     def get_input(self):
         """ 取得用戶輸入 """
@@ -34,8 +40,8 @@ class CBot():
             if not(char == " " and prevChar == " "):
                 temp += char
                 prevChar = char
-        text = temp.upper()
-
+        temp = temp.upper()
+        text = " " + temp + " "
         return text
 
     def find_match(self):
@@ -43,8 +49,9 @@ class CBot():
         self.response_list[:] = []
 
         for knowledge_base_key in self.Knowledge_Base.keys():
+            knowledge_base_key = " " + knowledge_base_key + " "
             if self.m_sInput.find(knowledge_base_key) != -1:
-                self.response_list = self.Knowledge_Base[knowledge_base_key]
+                self.response_list = self.Knowledge_Base[knowledge_base_key[1:-1]]
                 break
         # result = ""
         # for knowledge_base_key in self.Knowledge_Base.keys():
@@ -70,7 +77,7 @@ class CBot():
             self.m_bQuitProgram = 1
         
         if not self.bot_understand():
-            self.handle_event("BOT DONT UNDERSTAND**")
+            self.handle_event("BOT DON'T UNDERSTAND**")
         
         if len(self.response_list) > 0:
             self.select_response()
@@ -109,6 +116,7 @@ class CBot():
         self.set_event(event)
 
         self.save_input()
+        event = " " + event + " "
         self.set_input(event)
 
         if not self.same_event():
@@ -119,9 +127,10 @@ class CBot():
     # -------------
     def select_response(self):
         """ 隨機排列response_list後，挑第一個回應 """
-        random.shuffle(self.response_list)
-        self.m_sResponse = self.response_list[0]    
-    
+        if self.bot_understand():
+            random.shuffle(self.response_list)
+            self.m_sResponse = self.response_list[0]    
+
     def save_prev_input(self):
         self.m_sPrevInput = self.m_sInput
 
