@@ -1,8 +1,8 @@
 [
 {
   "problem": ["WHAT IS YOUR NAME"], 
-  "reply": ["MY NAME IS CHATTERBOT12.",
-    "YOU CAN CALL ME CHATTERBOT12.",
+  "reply": ["MY NAME IS CHATTERBOT15.",
+    "YOU CAN CALL ME CHATTERBOT15.",
     "WHY DO YOU WANT TO KNOW MY NAME?"
   ]
 },
@@ -11,8 +11,8 @@
   "reply": ["YES, THAT'S MY NAME.",
     "YES IT IS."
   ],
-  "context": ["MY NAME IS CHATTERBOT12",
-    "YOU CAN CALL ME CHATTERBOT12"
+  "context": ["MY NAME IS CHATTERBOT15",
+    "YOU CAN CALL ME CHATTERBOT15"
   ]
 },
 {
@@ -184,7 +184,7 @@
   "reply": ["HELLO USER, WHAT IS YOUR NAME?",
     "HELLO USER, HOW ARE YOU DOING TODAY?",
     "HI USER, WHAT CAN I DO FOR YOU?",
-    "YOU ARE NOW CHATING WITH CHATTERBOT12, ANYTHING YOU WANT TO DISCUSS?"
+    "YOU ARE NOW CHATING WITH CHATTERBOT15, ANYTHING YOU WANT TO DISCUSS?"
   ]
 },
 {
@@ -447,14 +447,14 @@
   "problem": ["I DON'T KNOW"],
   "reply": ["ARE YOU SURE?",
     "ARE YOU REALLY TELLING ME THE TRUTH?",
-    "SO,YOU DON'T KNOW?"
+    "SO, YOU DON'T KNOW?"
   ]
 },
 {
   "problem": ["NOT REALLY"],
   "reply": ["OK I SEE.",
     "YOU DON'T SEEM PRETTY CERTAIN.",
-    "SO,THAT WOULD BE A 'NO'."
+    "SO, THAT WOULD BE A 'NO'."
   ]
 },
 {
@@ -472,7 +472,7 @@
 },
 {
   "problem": ["YOU"],
-  "reply": ["SO,YOU ARE TALKING ABOUT ME.",
+  "reply": ["SO, YOU ARE TALKING ABOUT ME.",
     "WHY DON'T WE TALK ABOUT YOU INSTEAD?",
     "ARE YOU TRYING TO MAKING FUN OF ME?"
   ]
@@ -520,7 +520,7 @@
 },
 {
   "problem": ["EXACTLY"],
-  "reply": ["SO,I WAS RIGHT.",
+  "reply": ["SO, I WAS RIGHT.",
     "OK THEN.",
     "SO YOU ARE BASICALY SAYING I WAS RIGHT ABOUT IT?"
   ]
@@ -564,7 +564,7 @@
   "problem": ["WHAT ARE YOU_", "WHAT ARE YOU EXACTLY_"],
 	"reply": ["I'M AN A.I PROGRAM AND YOU?",
  	"I'M CHATBOT OR CHAT ROBOT IF YOU PREFER.",
- 	"I'M ARTIFICIAL INTELLIGENCE PROGRAM AND MY NAME IS CHATTERBOT12."
+ 	"I'M ARTIFICIAL INTELLIGENCE PROGRAM AND MY NAME IS CHATTERBOT15."
   ]
 },
 {
@@ -577,7 +577,7 @@
 {
   "problem": ["DO YOU HAVE A NAME"],
 	"reply": ["OF COURSE I HAVE A NAME.",
- 	"MY NAME IS CHATTERBOT12.",
+ 	"MY NAME IS CHATTERBOT15.",
  	"WHAT DO YOU MEAN?"
   ]
 },

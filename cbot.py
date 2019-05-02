@@ -1,4 +1,5 @@
 import re
+import time
 import json
 import random
 from gtts import gTTS
@@ -27,6 +28,8 @@ class CBot(object):
     def signon(self):
         self.handle_event("SIGNON**")
         self.select_response()
+        self.save_log()
+        self.save_log("CHATTERBOT")
         self.print_response()
 
     def get_input(self):
@@ -219,6 +222,7 @@ class CBot(object):
             if self.bot_repeat():
                 self.handle_repetition()
 
+            self.save_log("CHATTERBOT")
             # self.word_to_sound(self.m_sResponse)
             self.print_response()
     
@@ -381,6 +385,20 @@ class CBot(object):
         with open("unknown.txt", "a") as f:
             for line in self.list_unknown_input:
                 f.write(line + "\n")
+
+
+    def save_log(self, log_str=""):
+        now_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        if log_str == "":
+            logtext = "\n\n--------------------\n"
+            logtext += "Conversation log - " + str(now_time) + "\n\n"
+        elif log_str == "CHATTERBOT":
+            logtext = self.m_sResponse + "\n"
+        elif log_str == "USER":
+            logtext = ">" + self.m_sInput + "\n"
+
+        with open("log.txt", "a") as f:
+            f.write(logtext)
 
 
     def word_to_sound(self, text):
