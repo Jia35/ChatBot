@@ -18,12 +18,14 @@ class CBot(object):
         self.bot_name = bot_name
         self.m_bQuitProgram = 0     # 是否結束程式
         self.m_sKeyWord = ""
+        self.vResponseLog = []
+        self.list_unknown_input = []
 
         with open('KnowledgeBase.json', 'r') as file:
             self.Knowledge_Base = json.load(file)
 
     def signon(self):
-        self.handle_event("SIGNON")
+        self.handle_event("SIGNON**")
         self.select_response()
         self.print_response()
 
@@ -37,7 +39,7 @@ class CBot(object):
     def cleanString(self, text):
         """ 刪除標點符號、冗餘空格 """
         # text = re.sub("[?!@#$%^&*()/_\+-=~:.\'\"！？，。、￥…（）：]+", "", text)
-        text = re.sub("[?!.;,*]+", "", text)
+        text = re.sub("[?!.;,*~]+", "", text)
 
         temp = ""
         prevChar = " "
@@ -208,9 +210,11 @@ class CBot(object):
         
         if not self.bot_understand():
             self.handle_event("BOT DON'T UNDERSTAND**")
+            self.update_unkown_input_list()
         
         if len(self.response_list) > 0:
             self.select_response()
+            # self.save_bot_response()
             self.preprocess_response()
             if self.bot_repeat():
                 self.handle_repetition()
@@ -233,6 +237,10 @@ class CBot(object):
             self.restore_input()
 
         self.select_response()
+
+        # if len(self.response_list) > 1:
+        #     s = self.vResponseLog.copy()
+
 
     def handle_user_repetition(self):
         """ 處理用戶的重複 """
@@ -291,11 +299,31 @@ class CBot(object):
         if len(self.m_sResponse) > 0:
             print(self.m_sResponse)
 
+    def save_bot_response(self):
+        if self.m_sResponse:
+            self.vResponseLog.insert(self.m_sResponse)
+
     # --------------------------------
     def bot_repeat(self):
         """ 是否機器人已開始重複自己 """
         return (len(self.m_sPrevResponse) > 0 and
                 self.m_sResponse == self.m_sPrevResponse)
+        
+    #     pos = self.findRespPos(self.m_sResponse)
+    #     if pos > 0:
+    #         return (pos + 1) < len(self.response_list)
+    #     return False
+
+    # def findRespPos(self, input_str):
+    #     pos = -1
+    #     s = self.vResponseLog.copy()
+    #     while len(s) == 0:
+    #         pos += 1
+    #         if s[0] == input_str:
+    #             break
+    #         s.pop(0)
+    #     return pos
+
     
     def user_repeat(self):
         """ 是否用戶已開始重複自己 """
@@ -326,7 +354,7 @@ class CBot(object):
         return (len(self.m_sEvent) > 0 and self.m_sEvent == self.m_sPrevEvent)
 
     def no_response(self):
-        """ 是否對當前輸入沒有回應 """
+        """ 是否對當前輸入沒有回應response """
         return len(self.response_list) == 0
 
     def same_input(self):
@@ -344,6 +372,15 @@ class CBot(object):
     
     def bot_quit(self):
         return self.m_bQuitProgram
+
+    # ------------------------
+    def update_unkown_input_list(self):
+        self.list_unknown_input.append(self.m_sInput)
+
+    def save_unknown_input(self):
+        with open("unknown.txt", "a") as f:
+            for line in self.list_unknown_input:
+                f.write(line + "\n")
 
 
     def word_to_sound(self, text):
