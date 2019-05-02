@@ -5,7 +5,7 @@ from gtts import gTTS
 from pygame import mixer
 
 
-class CBot():
+class CBot(object):
     def __init__(self, bot_name):
         self.m_sInput = ""      # 輸入
         self.m_sResponse = ""   # 回應
@@ -18,22 +18,6 @@ class CBot():
         self.bot_name = bot_name
         self.m_bQuitProgram = 0     # 是否結束程式
         self.m_sKeyWord = ""
-        self.transposList = [
-            ["I'M", "YOU'RE"],
-            ["AM", "ARE"],
-            ["WERE", "WAS"],
-            ["I", "YOU"],
-            ["ME", "YOU"],
-            ["YOURS", "MINE"],
-            ["YOUR", "MY"],
-            ["I'VE", "YOU'VE"],
-            ["AREN'T", "AM NOT"],
-            ["WEREN'T", "WASN'T"],
-            ["I'D", "YOU'D"],
-            ["DAD", "FATHER"],
-            ["MOM", "MOTHER"],
-            ["DREAMS", "DREAM"],
-            ["MYSELF", "YOURSELF"]]
 
         with open('KnowledgeBase.json', 'r') as file:
             self.Knowledge_Base = json.load(file)
@@ -41,7 +25,6 @@ class CBot():
     def signon(self):
         self.handle_event("SIGNON")
         self.select_response()
-        self.word_to_sound(self.m_sResponse)
         self.print_response()
 
     def get_input(self):
@@ -72,55 +55,71 @@ class CBot():
         text = " " + temp + " "
         return text
 
-    
+
     def preprocess_response(self):
         if self.m_sResponse.find("*") != -1:
             self.find_subject()
-            self.transpose(self.m_sSubject)
-
-            self.m_sResponse, _ = self.replace(self.m_sResponse, "*", self.m_sSubject)
+            self.m_sSubject = self.transpose(self.m_sSubject)
+            self.m_sResponse = self.m_sResponse.replace("*", self.m_sSubject)
 
 
     def find_subject(self):
+        """ 擷取去掉keyword後的輸入 """
         self.m_sSubject = ""
         self.m_sInput = self.m_sInput.rstrip()
         pos = self.m_sInput.find(self.m_sKeyWord)
         if pos != -1:
             self.m_sSubject = self.m_sInput[pos + len(self.m_sKeyWord) - 1:]
 
-
-    def replace(self, str_input, substr1, substr2):
-        pos = str_input.find(substr1)
-        if pos != -1:
-            str_input = str_input[:pos] + str_input[pos+len(substr1):]
-            str_input = str_input[:pos] + substr2 + str_input[pos:]
-        return str_input, pos
-    # def trimRight(self, str_input, delim):
-    #     # size_t pos = str.find_last_not_of(delim);
-    #     if pos != -1:
-    #         str_input = str_input[:pos+1]
-
     def transpose(self, str_input):
-        bTransposed = False
-        for transpos in self.transposList:
-            first = transpos[0]
-            first = " " + first + " "
-            second = transpos[1]
-            second = " " + second + " "
+        """轉換字串
 
-            str_input, pos = self.replace(str_input, first, second)
-            if pos != -1:
-                bTransposed = True
+        英文人稱的轉換
+
+        Args:
+            str_input: (string)待轉換的字串
+        Returns:
+            str_input: (string)轉換後的字串
+        """
+        transposList = [
+            [" MYSELF ", " YOURSELF "],
+            [" DREAMS ", " DREAM "],
+            [" WEREN'T ", " WASN'T "],
+            [" AREN'T ", " AM NOT "],
+            [" I'VE ", " YOU'VE "],
+            [" MINE ", " YOURS "],
+            [" MY ", " YOUR "],
+            [" WERE ", " WAS "],
+            [" MOM ", " MOTHER "],
+            [" I AM ", " YOU ARE "],
+            [" I'M ", " YOU'RE "],
+            [" DAD ", " FATHER "],
+            [" AM ", " ARE "],
+            [" I'D ", " YOU'D "],
+            [" I ", " YOU "],
+            [" ME ", " YOU "]]
+
+        bTransposed = False
+        for transpos in transposList:
+            first = transpos[0]
+            second = transpos[1]
+            pos = 0
+            while pos != -1:
+                str_input = str_input.replace(first, second)
+                pos = str_input.find(first)
+                if pos != -1:
+                    bTransposed = True
 
         if not bTransposed:
-            for transpos in self.transposList:
+            for transpos in transposList:
                 first = transpos[0]
-                first = " " + first + " "
                 second = transpos[1]
-                second = " " + second + " "
+                pos = 0
+                while pos != -1:
+                    str_input = str_input.replace(first, second)
+                    pos = str_input.find(first)
 
-                str_input, pos = self.replace(str_input, first, second)
-
+        return str_input
 
     def wrong_location(self, keyword, firstChar, lastChar, pos):
         bWrongPos = False
@@ -216,7 +215,7 @@ class CBot():
             if self.bot_repeat():
                 self.handle_repetition()
 
-            self.word_to_sound(self.m_sResponse)
+            # self.word_to_sound(self.m_sResponse)
             self.print_response()
     
 
@@ -368,6 +367,28 @@ class CBot():
         mixer.quit()
 
 '''
+"""Fetches rows from a Bigtable.
+
+        Retrieves rows pertaining to the given keys from the Table instance
+        represented by big_table.
+
+        Args:
+            keys: A sequence of strings representing the key of each table row
+                to fetch.
+
+        Returns:
+            A dict mapping keys to the corresponding table row data
+            fetched. Each row is represented as a tuple of strings. For
+            example:
+
+            {'Serak': ('Rigel VII', 'Preparer'),
+            'Zim': ('Irk', 'Invader'),
+            'Lrrr': ('Omicron Persei 8', 'Emperor')}
+
+            If a key from the keys argument is missing from the dictionary,
+            then that row was not found in the table.
+        """
+
 def respond(self):
     """ 在影像中尋找aruco tag
         param image: numpy.ndarray 輸入影像

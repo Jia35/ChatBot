@@ -16,7 +16,7 @@
   ]
 },
 {
-  "problem": ["_HI", "_HELLO", "_HI_", "_HELLO_"], 
+  "problem": ["HI", "HELLO"], 
   "reply": ["HI THERE!",
     "HOW ARE YOU?",
     "HI!"
