@@ -9,6 +9,8 @@ class CBot():
         self.m_sResponse = ""   # 回應
         self.m_sPreviousInput = ""      # 前一個輸入
         self.m_sPreviousResponse = ""   # 前一個回應
+        self.m_sContext = ""
+        self.m_sPrevContext = ""
         self.m_sEvent = ""
         self.response_list = []     # 回應列表
         self.bot_name = bot_name
@@ -18,11 +20,11 @@ class CBot():
             ["I'M", "YOU'RE"],
             ["AM", "ARE"],
             ["WERE", "WAS"],
+            ["I", "YOU"],
             ["ME", "YOU"],
             ["YOURS", "MINE"],
             ["YOUR", "MY"],
             ["I'VE", "YOU'VE"],
-            ["I", "YOU"],
             ["AREN'T", "AM NOT"],
             ["WEREN'T", "WASN'T"],
             ["I'D", "YOU'D"],
@@ -46,8 +48,8 @@ class CBot():
         # sInput = " How   are# you?"        
         self.m_sInput = self.preprocess_input(self.m_sInput)
 
-    def preprocess_input(self, text):
-        """ 對輸入預處理，刪除標點符號、冗餘空格，及將輸入轉換為大寫 """
+    def cleanString(self, text):
+        """ 刪除標點符號、冗餘空格 """
         # text = re.sub("[?!@#$%^&*()/_\+-=~:.\'\"！？，。、￥…（）：]+", "", text)
         text = re.sub("[?!.;,*]+", "", text)
 
@@ -57,6 +59,12 @@ class CBot():
             if not(char == " " and prevChar == " "):
                 temp += char
                 prevChar = char
+        return temp
+
+    def preprocess_input(self, text):
+        """ 對輸入預處理，刪除標點符號、冗餘空格，及將輸入轉換為大寫 """
+        temp = self.cleanString(text)
+        self.m_sInput = self.m_sInput.rstrip(". ")
         temp = temp.upper()
         text = " " + temp + " "
         return text
@@ -111,7 +119,6 @@ class CBot():
                 str_input, pos = self.replace(str_input, first, second)
 
 
-
     def wrong_location(self, keyword, firstChar, lastChar, pos):
         bWrongPos = False
         pos += len(keyword)
@@ -122,6 +129,25 @@ class CBot():
         return bWrongPos
 
 
+    def wrong_context(self, contextList):
+        bWrongContext = True
+        if len(contextList) == 0:
+            bWrongContext = False
+        else:
+            sContext = self.m_sPrevResponse
+            sContext = self.cleanString(sContext)
+            for context in contextList:
+                if context == sContext:
+                    self.m_sPrevContext = self.m_sContext
+                    self.m_sContext = sContext
+                    bWrongContext = False
+                    break
+
+        if len(self.m_sPrevContext) > len(self.m_sContext):
+            bWrongContext = True
+        
+        return bWrongContext
+
 
     def find_match(self):
         """ 查找當前輸入的回應 """
@@ -130,6 +156,7 @@ class CBot():
         response_list_temp = []
 
         for knowledge in self.Knowledge_Base:
+            contextList = knowledge.get("context", [])
             for keyWord in knowledge["problem"]:
                 firstChar = keyWord[0]
                 lastChar = keyWord[-1]
@@ -142,6 +169,10 @@ class CBot():
                 if keyPos != -1:
                     if self.wrong_location(keyWord, firstChar, lastChar, keyPos):
                         continue
+
+                    if self.wrong_context(contextList):
+                        continue
+
 
                     if len(keyWord) > len(bestKeyWord):
                         bestKeyWord = keyWord

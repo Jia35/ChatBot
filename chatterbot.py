@@ -10,4 +10,4 @@ try:
         bot.respond()
 
 except Exception as e:
-    print(str(e))
+    print("Error: " + str(e))

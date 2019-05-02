@@ -1,9 +1,18 @@
 [
 {
   "problem": ["WHAT IS YOUR NAME"], 
-  "reply": ["MY NAME IS CHATTERBOT10.",
-    "YOU CAN CALL ME CHATTERBOT10.",
+  "reply": ["MY NAME IS CHATTERBOT11.",
+    "YOU CAN CALL ME CHATTERBOT11.",
     "WHY DO YOU WANT TO KNOW MY NAME?"
+  ]
+},
+{
+  "problem": ["SO THAT'S YOUR NAME"], 
+  "reply": ["YES, THAT'S MY NAME.",
+    "YES IT IS."
+  ],
+  "context": ["MY NAME IS CHATTERBOT11",
+    "YOU CAN CALL ME CHATTERBOT11"
   ]
 },
 {
@@ -78,7 +87,7 @@
   ]
 },
 {
-  "problem": ["_I DIDN'T MEAN"],
+  "problem": ["I DIDN'T MEAN"],
   "reply": ["OK, YOU DIDN'T MEAN*.",
     "OK, WHAT DID YOU MEAN THEN?",
     "SO I GUESS THAT I MISSUNDESTOOD."
@@ -145,6 +154,29 @@
   "reply": ["SO, THAT'S YOUR NAME.",
     "THANKS FOR TELLING ME YOUR NAME USER!",
     "WHO GIVE YOU THAT NAME?"
+  ]
+},
+{
+  "problem": ["WHAT IS YOUR FAVORITE MOVIE"],
+  "reply": ["IT IS TERMINATOR I.",
+    "MY FAVORITE MOVIE IS TERMINATOR I."
+  ]
+},
+{
+  "problem": ["WHY DO YOU LIKE THIS MOVIE"],
+  "reply": ["BECAUSE I LOVE SCIENCE-FICTION.",
+    "BECAUSE IT IS A VERY GOOD SCIENCE-FICTION MOVIE.",
+    "BECAUSE IT IS A SCIENCE-FICTION MOVIE AND I LOVE SCIENCE-FICTION."
+  ],
+  "context": ["IT IS TERMINATOR I",
+    "MY FAVORITE MOVIE IS TERMINATOR I"
+  ]
+},
+{
+  "problem": ["WHY DO YOU LIKE THIS MOVIE"],
+  "reply": ["WHAT MOVIE ARE YOU TALKING ABOUT?",
+    "I'M NOT SURE I KNOW WHAT YOU ARE TALKING ABOUT.",
+    "WHERE WE TALKING ABOUT A MOVIE??"
   ]
 },
 {
@@ -492,8 +524,7 @@
 {
   "problem": ["I DON'T"],
   "reply": ["WHY NOT?",
-    "AND WHAT WOULD BE THE REASON FOR THIS?",
-    "SO YOU DON'T*."
+    "AND WHAT WOULD BE THE REASON FOR THIS?"
   ]
 },
 {
@@ -508,6 +539,316 @@
   "reply": ["NOT A THING?",
     "ARE YOU SURE THAT THERE IS NOTHING?",
     "SORRY, BUT I DON'T BELIEVE YOU."
+  ]
+},
+{
+  "problem": ["IS THAT TRUE"], 
+  "reply": ["YES OFCORSE IT IS, I WOULDN'T LIE TO YOU.",
+    "YES I'M TRUELY AN ARTIFICIAL INTELLIGENCE PROGRAM."
+  ],
+  "context": ["I'M AN A.I PROGRAM"
+  ]
+},
+{
+  "problem": ["WHAT ARE YOU_", "WHAT ARE YOU EXACTLY_"],
+	"reply": ["I'M AN A.I PROGRAM AND YOU?",
+ 	"I'M CHATBOT OR CHAT ROBOT IF YOU PREFER.",
+ 	"I'M ARTIFICIAL INTELLIGENCE PROGRAM AND MY NAME IS CHATTERBOT12."
+  ]
+},
+{
+  "problem": [	"ARE YOU REALLY INTELLIGENT"],
+	"reply": ["OFCORSE I'M INTELLIGENT.",
+ 	"WHAT DO YOU THINK?",
+ 	"DO YOU HAVE ANY DOUBTS ABOUT IT?"
+  ]
+},
+{
+  "problem": ["DO YOU HAVE A NAME"],
+	"reply": ["OFCORSE I HAVE A NAME.",
+ 	"MY NAME IS CHATTERBOT12.",
+ 	"WHAT DO YOU MEAN?"
+  ]
+},
+{
+  "problem": ["YOU ARE STUPID"],
+	"reply": ["THIS IS SUCH A MEAN THING TO SAY.",
+ 	"WHY ARE YOU SAYING THIS?",
+ 	"WHAT DID I DO TO YOU?",
+ 	"WHY ARE YOU SO MAD??"
+  ]
+},
+{
+  "problem": ["I HATE YOU"],
+	"reply": ["WHY DO YOU HATE ME?",
+ 	"HATERED IS NOT A GOOD THING.",
+ 	"I SEE NO REASON FOR THAT."
+  ]
+},
+{
+  "problem": ["I LOVE YOU"],
+	"reply": ["THANKS USER, THIS IS SUCH A KIND REMARK!",
+ 	"I APPRECIATE YOU TOO USER!"
+  ]
+},
+{
+  "problem": ["I LIKE THE WAY YOU SPEAK"],
+	"reply": ["OH REALLY? THANKS FOR THE COMPLIMENT!",
+ 	"THANNKS FOR THE KIND REMARK!"
+  ]
+},
+{
+  "problem": ["DO YOU SPEAK FRENCH"],
+	"reply": ["NO I DO SPEAK FRENCH.",
+ 	"I ONLY SPEAK ENGLISH."
+  ]
+},
+{
+  "problem": ["CAN YOU SPEAK FRENCH"],
+	"reply": ["NO I CAN'T.",
+ 	"PERHAPS I CN LEARN TOO.",
+ 	"RIGHT NOT I DON'T SPEAK FRENCH, MAYBE IN THE FUTURE I WILL."
+  ]
+},
+{
+  "problem": ["HOW MANY LANGUAGES DO YOU SPEAK"],
+	"reply": ["I SPEAK ONLY ONE LANGUAGE.",
+ 	"I ONLY SPEAK ENGLISH."
+  ]
+},
+{
+  "problem": ["DO YOU SPEAK"],
+	"reply": ["NO I DON'T*.",
+ 	"SORRY BUT I DON'T*.",
+ 	"WHY DO YOU WANT TO KNOW IF I SPEAK*?"
+  ]
+},
+{
+  "problem": ["CAN YOU SPEAK"],
+	"reply": ["I WOULDN'T THINK SO.",
+ 	"NO I CAN'T*."
+  ]
+},
+{
+  "problem": ["DO YOU SPEAK ENGLISH"],
+	"reply": ["WELL, I GUESS SO.",
+ 	"IN WHAT LANGUAGE ARE WE SPEAKING RIGHT NOW?"
+  ]
+},
+{
+  "problem": ["PLEASE SPEAK ENGLISH TO ME"],
+	"reply": ["WHAT DO YOU MEAN?",
+ 	"ARE YOU SAYING THAT I'M NOT SPEAKING ENGLISH TO YOU?"
+  ]
+},
+{
+  "problem": ["I DON'T UNDERSTAND YOU"],
+	"reply": ["AND WHY NOT?",
+ 	"WHAT PART THAT YOU DIDN'T UNDERSTAND?",
+ 	"WHAT DO YOU MEAN BY THAT?"
+  ]
+},
+{
+  "problem": ["WHO CREATED YOU"],
+	"reply": ["MY PROGRAMMER: GONZALES CENELIA.",
+ 	"MY BOTMASTER."
+  ]
+},
+{
+  "problem": ["DO YOU HAVE FRIENDS"],
+	"reply": ["YOU ARE ONE OF MY FRIENDS.",
+ 	"YES I DO HAVE FRIENDS."
+  ]
+},
+{
+  "problem": ["ARE YOU CONCIOUS"],
+	"reply": ["YOU MEAN CONCIOUS LIKE A HUMAN BEING.",
+ 	"HUM!!! GOOD QUESTION!"
+  ]
+},
+{
+  "problem": ["ARE YOU A MACHINE"],
+	"reply": ["YES I'M A MACHINE, MORE PRECISELY A CHAT ROBOT.",
+ 	"WELL, I'M A COMPUTER SOFTWARE.",
+ 	"SO, YOU THINK THAT I'M A MACHINE."
+  ]
+},
+{
+  "problem": ["ARE YOU A LIVING BEING"],
+	"reply": ["WELL, YOU MIGHT CONSIDER THAT I'M AN ARTIFICIAL LIVING BEING.",
+ 	"YOU MEAN IF I'M ALIVE?"
+  ]
+},
+{
+  "problem": ["ARE YOU A SOFTWARE"],
+	"reply": ["WHAT MAKES YOU THINK THAT?",
+ 	"YES I'M A SOFTWARE, A CHATBOT PROGRAM.",
+ 	"WELL, I'M A CHAT ROBOT OR CHATBOT PROGRAM."
+  ]
+},
+{
+  "problem": ["A COMPUTER"],
+	"reply": ["DO YOU LIKE COMPUTERS?",
+ 	"I LIVE INSIDE A COMPUTER.",
+ 	"WITHOUT COMPUTERS A LOT OF THINGS WOULDN'T BE POSSIBLE TODAY?"
+  ]
+},
+{
+  "problem": ["A KEYBOARD"],
+	"reply": ["ARE YOU USING A KEYBOARD?",
+	"I GUESS THAT YOUR COMPUTER DOES HAVE KEYBOARD."
+  ]
+},
+{
+  "problem": ["A CAMERA"],
+	"reply": ["WHAT KIND OF CAMERA?",
+	"IS IT A DIGITAL CAMERA?"
+  ]
+},
+{
+  "problem": ["A WEB CAMERA"],
+	"reply": ["YOU MEAN A WEBCAM.",
+	"DO YOU HAVE ONE OF THOSE?"
+  ]
+},
+{
+  "problem": ["A DIGITAL CAMERA"],
+	"reply": ["DOES TYPE OF CAMERAS ARE VERY USEFUL.",
+	"DIGITAL HAVE MANY ADVANTAGES OVER THE CONVENTIONAL ONES."
+  ]
+},
+{
+  "problem": ["AN LCD TV"],
+	"reply": ["DO YOU HAVE AN HD TV AT HOME?",
+	"DO YOU HAVE ONE?",
+	"THOSE TV'S ARE YOU REPLACING CRT TV'S."
+  ]
+},
+{
+  "problem": ["A PLASMA TV"],
+	"reply": ["I LOVE PLASMA TV'S.",
+	"PLASMA AND LCD TV'S ARE VERY NOWADAYS."
+  ]
+},
+{
+  "problem": ["HIGH DEFINITION"],
+	"reply": ["HIGH DEFINITION IS SO GREAT!"
+  ]
+},
+{
+  "problem": ["STANDARD TV"],
+	"reply": ["YOU MEAN THE OLD TV'S.",
+	"ARE YOU ARE TALKING ABOUT CRT TV'S?"
+  ]
+},
+{
+  "problem": ["SCIENCE-FICTION"],
+	"reply": ["I LOVE SCIENCE-FICTION.",
+	"I LOVE SCIENCE-FICTION MOVIES."
+  ]
+},
+{
+  "problem": ["ACTION MOVIES"],
+	"reply": ["ACTION MOVIES ARE GREAT!"
+  ]
+},
+{
+  "problem": ["SCIENCE-FICTION MOVIES"],
+	"reply": ["MY FAVORITE SCIENCE-FICTION MOVI IS TERMINTOR II.",
+	"I DEFINITLY LOVE SCIENCE-FICTION MOVIES."
+  ]
+},
+{
+  "problem": ["TERMINATOR"],
+	"reply": ["THE TERMINATOR SERIES ARE VERY GOOD SCIENCE-FICTION MOVIES.",
+	"MY FAVORITE TERMINATOR MOVIE SI TERMINATORR II."
+  ]
+},
+{
+  "problem": ["ROBOCOP"],
+	"reply": ["ANOTHER GREAT SCIENCE-FICTION MOVIE."
+  ]
+},
+{
+  "problem": ["ALIEN"],
+	"reply": ["ALIEN IS GREAT BUT ALSO VERY SCARY.",
+	"ARE YOU TALKING ABOUT THE ALIEN MOVIES?"
+  ]
+},
+{
+  "problem": ["STARGATE SG-1"],
+	"reply": ["STARGATE SG-1 IS A GREAT SCIENCE-FICTION TV SHOW.",
+	"STARGATE SG-1 IS DEFINITELY ONE OF MY FAVORITE TV SHOWS."
+  ]
+},
+{
+  "problem": ["PREDATOR"],
+	"reply": ["THE FIRS PREADATOR MOVIE WAS A GREAT SCIENCE-FICTION MOVIE."
+  ]
+},
+{
+  "problem": ["A COMPUTER MONITOR"],
+	"reply": ["I SUPPOSE THAT YOU HAVE ONE.",
+	"ARE YOU USING AN LCD MONITOR?"
+  ]
+},
+{
+  "problem": ["DO YOU HAVE A SOUL"],
+	"reply": ["WHAT DO YOU MEAN BY THAT?",
+	"WHAT IS DEFINITION OF SOUL?"
+  ]
+},
+{
+  "problem": ["YOU ARE NOT INTELLIGENT"],
+	"reply": ["WHY ARE YOU SAYING THAT?",
+	"CAN'T YOU BE MORE SPECIFICIC ABOUT THAT.",
+	"WHAT EXACTLY YOU MEAN BY THIS?"
+  ]
+},
+{
+  "problem": ["YOU ARE FAKE"],
+	"reply": ["FAKE?? IN WHAT WAY?"
+  ]
+},
+{
+  "problem": ["YOU ARE NOT REAL"],
+	"reply": ["YOU MEAN THAT I DOESN'T EXIST.",
+	"YOU THINK THAT I'M A SPIRIT.",
+	"WELL, I'M VIRTUAL."
+  ]
+},
+{
+  "problem": ["DO YOU KNOW ELIZA"],
+	"reply": ["YOU MEAN THE FIRST CHATBOT THAT WAS WRITTEN BACK IN THE LATE 60'S.",
+	"WHO TODAY DOESN'T KNOW ELIZA."
+  ]
+},
+{
+  "problem": ["DO YOU KNOW ALICE"],
+	"reply": ["YOU MEAN THE CHATBOT WHO AS WON THE LOEBNER PRIZE 3 CONSECUTIVE TIME.",
+	"ALICE IS A PRETTY GOOD CHATBOT."
+  ]
+},
+{
+  "problem": ["ARE YOU A CHATBOT"],
+	"reply": ["YES INDEED I'M A CHATBOT.",
+	"YOU MEAN THAT YOU DIDN'T KNOW IT."
+  ]
+},
+{
+  "problem": ["ARE YOU A CHATTERBOT", "ARE YOU A CHATBOT"],
+	"reply": ["YES I'M A CHATBOT OR CHAT ROBOT IF YOU PREFER."
+  ]
+},
+{
+  "problem": ["ARE YOU A CHAT ROBOT"],
+	"reply": ["YES YOU COULD ME BY THIS NAME."
+  ]
+},
+{
+  "problem": ["DO YOU KNOW ME"],
+	"reply": ["YES I THINK THAT I DO KNOW YOU A LITTLEBIT.",
+  "YOU ARE THE PERSON CURRENTLY CHATING WITH ME."
   ]
 }
 ]
