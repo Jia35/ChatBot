@@ -2,7 +2,7 @@ from cbot import CBot
 
 
 try:
-    bot = CBot("Chatterbot6")
+    bot = CBot("Chatterbot12")
 
     # bot.signon()
     while not bot.bot_quit():

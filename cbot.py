@@ -1,6 +1,8 @@
 import re
 import json
 import random
+from gtts import gTTS
+from pygame import mixer
 
 
 class CBot():
@@ -39,6 +41,7 @@ class CBot():
     def signon(self):
         self.handle_event("SIGNON")
         self.select_response()
+        self.word_to_sound(self.m_sResponse)
         self.print_response()
 
     def get_input(self):
@@ -173,7 +176,6 @@ class CBot():
                     if self.wrong_context(contextList):
                         continue
 
-
                     if len(keyWord) > len(bestKeyWord):
                         bestKeyWord = keyWord
                         response_list_temp[:] = []
@@ -183,7 +185,7 @@ class CBot():
                         response_list_temp.append(knowledge["reply"])
         
         if len(response_list_temp) > 0:
-            self.m_sKeyWord = bestKeyWord;
+            self.m_sKeyWord = bestKeyWord
             random.shuffle(response_list_temp)
             self.response_list = response_list_temp[0].copy()
             self.m_sResponse = self.response_list[0]
@@ -214,6 +216,7 @@ class CBot():
             if self.bot_repeat():
                 self.handle_repetition()
 
+            self.word_to_sound(self.m_sResponse)
             self.print_response()
     
 
@@ -342,6 +345,27 @@ class CBot():
     
     def bot_quit(self):
         return self.m_bQuitProgram
+
+
+    def word_to_sound(self, text):
+        """ 文字轉語音播放
+        param text: string 文字
+        """
+        tts = gTTS(text)
+        tts.save("wordToSound.mp3")
+        self.play_sound("wordToSound.mp3")
+
+    def play_sound(self, file_name):
+        """ 播放錄音
+        param file_name: string 要播放音檔名
+        """
+        mixer.init()
+        mixer.music.load(file_name)
+        mixer.music.play()
+        while mixer.music.get_busy() == True:
+            continue
+        mixer.music.stop()
+        mixer.quit()
 
 '''
 def respond(self):
