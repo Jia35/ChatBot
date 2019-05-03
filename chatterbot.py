@@ -1,8 +1,8 @@
-from cbot import CBot
+from cbot import ChatBot
 
 
 try:
-    bot = CBot("Chatterbot15")
+    bot = ChatBot("Chatterbot15")
 
     bot.signon()
     while not bot.bot_quit():

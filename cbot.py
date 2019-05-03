@@ -6,7 +6,7 @@ from gtts import gTTS
 from pygame import mixer
 
 
-class CBot(object):
+class ChatBot(object):
     """對話機器人
 
     signon() -> 登錄
@@ -16,22 +16,25 @@ class CBot(object):
     save_unknown_input() -> 保存未知輸入
     """
     def __init__(self, bot_name="Chatterbot"):
-        self.m_sInput = ""      # 當前輸入
-        self.m_sResponse = ""   # 當前回應
-        self.m_sPreviousInput = ""      # 前一個輸入
-        self.m_sPreviousResponse = ""   # 前一個回應
-        self.m_sContext = ""        # 當前上下文
-        self.m_sPrevContext = ""    # 前一個上下文
-        self.m_sEvent = ""
+        self.curr_input = ""        # 當前輸入
+        self.prev_input = ""        # 前一個輸入
+        self.backup_input = ""      # 備份輸入
+        self.curr_response = ""     # 當前回應
+        self.prev_response = ""     # 前一個回應
+        self.curr_context = ""      # 當前上下文
+        self.prev_context = ""      # 前一個上下文
+        self.subject = ""
+        self.curr_event = ""
+        self.prev_event = ""
         self.response_list = []     # 回應列表
-        self.m_bQuitProgram = 0     # 是否結束程式
-        self.m_sKeyWord = ""
-        self.vResponseLog = []
+        self.is_quit_program = False     # 是否結束程式
+        self.curr_keyword = ""
+        self.response_log = []
         self.list_unknown_input = []
         self.bot_name = bot_name
 
         with open('KnowledgeBase.json', 'r') as file:
-            self.Knowledge_Base = json.load(file)
+            self.knowledge_base = json.load(file)
 
     def signon(self):
         """ 登錄 """
@@ -44,9 +47,8 @@ class CBot(object):
     def get_input(self):
         """ 取得用戶輸入 """
         self.save_prev_input()
-        self.m_sInput = input("> ")
-        # sInput = " How   are# you?"        
-        self.m_sInput = self.preprocess_input(self.m_sInput)
+        self.curr_input = input("> ")      
+        self.curr_input = self.preprocess_input(self.curr_input)
         self.save_log("USER")
     
     def respond(self):
@@ -64,7 +66,7 @@ class CBot(object):
             self.find_match()
         
         if self.user_want_to_quit():
-            self.m_bQuitProgram = 1
+            self.is_quit_program = True
         
         if not self.bot_understand():
             self.handle_event("BOT DON'T UNDERSTAND**")
@@ -78,7 +80,7 @@ class CBot(object):
                 self.handle_repetition()
 
             self.save_log("CHATTERBOT")
-            # self.word_to_sound(self.m_sResponse)
+            # self.word_to_sound(self.curr_response)
             self.print_response()
     
 
@@ -89,7 +91,7 @@ class CBot(object):
         
         if self.no_response:
             self.save_input()
-            self.set_input(self.m_sEvent)
+            self.set_input(self.curr_event)
 
             self.find_match()
             self.restore_input()
@@ -97,7 +99,7 @@ class CBot(object):
         self.select_response()
 
         # if len(self.response_list) > 1:
-        #     s = self.vResponseLog.copy()
+        #     s = self.response_log.copy()
 
     def handle_user_repetition(self):
         """ 處理用戶的重複 """
@@ -124,41 +126,40 @@ class CBot(object):
 
         self.restore_input()
 
-    def cleanString(self, text):
+    def clean_string(self, text):
         """ 刪除標點符號、重複空格 """
         # text = re.sub("[?!@#$%^&*()/_\+-=~:.\'\"！？，。、￥…（）：]+", "", text)
         text = re.sub("[?!.;,*~]+", "", text)
 
         temp = ""
-        prevChar = " "
+        prev_char = " "
         for char in text:
-            if not(char == " " and prevChar == " "):
+            if not(char == " " and prev_char == " "):
                 temp += char
-                prevChar = char
+                prev_char = char
         return temp
 
     def preprocess_input(self, text):
         """ 對輸入預處理，刪除標點符號、重複空格，及將輸入轉換為大寫 """
-        temp = self.cleanString(text)
+        temp = self.clean_string(text)
         temp = temp.upper()
         text = " " + temp + " "
         return text
 
     def preprocess_response(self):
         """ 對回應預處理，針對有*星號的回應 """
-        if self.m_sResponse.find("*") != -1:
+        if self.curr_response.find("*") != -1:
             self.find_subject()
-            self.m_sSubject = self.transpose(self.m_sSubject)
-            self.m_sResponse = self.m_sResponse.replace("*", self.m_sSubject)
-
+            self.subject = self.transpose(self.subject)
+            self.curr_response = self.curr_response.replace("*", self.subject)
 
     def find_subject(self):
         """ 擷取去掉keyword後的輸入 """
-        self.m_sSubject = ""
-        self.m_sInput = self.m_sInput.rstrip()
-        pos = self.m_sInput.find(self.m_sKeyWord)
+        self.subject = ""
+        self.curr_input = self.curr_input.rstrip()
+        pos = self.curr_input.find(self.curr_keyword)
         if pos != -1:
-            self.m_sSubject = self.m_sInput[pos + len(self.m_sKeyWord) - 1:]
+            self.subject = self.curr_input[pos + len(self.curr_keyword) - 1:]
 
     def transpose(self, str_input):
         """轉換字串
@@ -170,7 +171,7 @@ class CBot(object):
         Returns:
             str_input: (string)轉換後的字串
         """
-        transposList = [
+        transpos_list = [
             [" MYSELF ", " YOURSELF "],
             [" DREAMS ", " DREAM "],
             [" WEREN'T ", " WASN'T "],
@@ -188,8 +189,8 @@ class CBot(object):
             [" I ", " YOU "],
             [" ME ", " YOU "]]
 
-        bTransposed = False
-        for transpos in transposList:
+        is_transposed = False
+        for transpos in transpos_list:
             first = transpos[0]
             second = transpos[1]
             pos = 0
@@ -197,10 +198,10 @@ class CBot(object):
                 str_input = str_input.replace(first, second)
                 pos = str_input.find(first)
                 if pos != -1:
-                    bTransposed = True
+                    is_transposed = True
 
-        if not bTransposed:
-            for transpos in transposList:
+        if not is_transposed:
+            for transpos in transpos_list:
                 first = transpos[0]
                 second = transpos[1]
                 pos = 0
@@ -210,140 +211,141 @@ class CBot(object):
 
         return str_input
 
-    def wrong_location(self, keyword, firstChar, lastChar, pos):
+    def wrong_location(self, keyword, first_char, last_char, pos):
         """ 是否輸入中的keyWord與資料庫中的keyWord位置不同
         
         Args:
             keyword: (list)預處理過的keyWord
-            firstChar: (string)keyWord第一個字元
-            lastChar: (string)keyWord最後一個字元
+            first_char: (string)keyWord第一個字元
+            last_char: (string)keyWord最後一個字元
             pos: (int)輸入字串中keyWord出現的位置
         """
-        bWrongPos = False
+        is_wrong_pos = False
         pos += len(keyword)
-        if ( (firstChar == '_' and lastChar == '_' and self.m_sInput != keyword) or
-             (firstChar != '_' and lastChar == '_' and pos != len(self.m_sInput)) or
-             (firstChar == '_' and lastChar != '_' and pos == len(self.m_sInput)) ):
-            bWrongPos = True
-        return bWrongPos
+        if ( (first_char == '_' and last_char == '_' and self.curr_input != keyword) or
+             (first_char != '_' and last_char == '_' and pos != len(self.curr_input)) or
+             (first_char == '_' and last_char != '_' and pos == len(self.curr_input)) ):
+            is_wrong_pos = True
+        return is_wrong_pos
 
-
-    def wrong_context(self, contextList):
+    def wrong_context(self, context_list):
         """ 是否回應的上文在上一次回應中
-        
+
         Args:
-            contextList: (list)回應的context列表
+            context_list: (list)回應的context列表
         """
-        bWrongContext = True
-        if len(contextList) == 0:
-            bWrongContext = False
+        is_wrong_context = True
+        if len(context_list) == 0:
+            is_wrong_context = False
         else:
-            sContext = self.m_sPrevResponse
-            sContext = self.cleanString(sContext)
-            for context in contextList:
-                if context == sContext:
-                    self.m_sPrevContext = self.m_sContext
-                    self.m_sContext = sContext
-                    bWrongContext = False
+            temp_context = self.prev_response
+            temp_context = self.clean_string(temp_context)
+            for context in context_list:
+                if context == temp_context:
+                    self.prev_context = self.curr_context
+                    self.curr_context = temp_context
+                    is_wrong_context = False
                     break
 
-        if len(self.m_sPrevContext) > len(self.m_sContext):
-            bWrongContext = True
+        if len(self.prev_context) > len(self.curr_context):
+            is_wrong_context = True
         
-        return bWrongContext
+        return is_wrong_context
 
 
     def find_match(self):
         """ 查找當前輸入的回應 """
         self.response_list[:] = []
-        bestKeyWord = ""
+        best_keyword = ""
         response_list_temp = []
 
-        for knowledge in self.Knowledge_Base:
-            contextList = knowledge.get("context", [])
-            for keyWord in knowledge["problem"]:
-                firstChar = keyWord[0]
-                lastChar = keyWord[-1]
-                keyWord = keyWord.strip("_")
+        for knowledge in self.knowledge_base:
+            context_list = knowledge.get("context", [])
+            for keyword in knowledge["problem"]:
+                first_char = keyword[0]
+                last_char = keyword[-1]
+                keyword = keyword.strip("_")
 
-                keyWord = " " + keyWord + " "
+                keyword = " " + keyword + " "
 
-                keyPos = self.m_sInput.find(keyWord)
+                keyPos = self.curr_input.find(keyword)
 
                 if keyPos != -1:
-                    if self.wrong_location(keyWord, firstChar, lastChar, keyPos):
+                    if self.wrong_location(keyword, first_char, last_char, keyPos):
                         continue
 
-                    if self.wrong_context(contextList):
+                    if self.wrong_context(context_list):
                         continue
 
-                    if len(keyWord) > len(bestKeyWord):
-                        bestKeyWord = keyWord
+                    if len(keyword) > len(best_keyword):
+                        best_keyword = keyword
                         response_list_temp[:] = []
                         response_list_temp.append(knowledge["reply"])
 
-                    elif len(keyWord) == len(bestKeyWord):
+                    elif len(keyword) == len(best_keyword):
                         response_list_temp.append(knowledge["reply"])
         
         if len(response_list_temp) > 0:
-            self.m_sKeyWord = bestKeyWord
+            self.curr_keyword = best_keyword
             random.shuffle(response_list_temp)
             self.response_list = response_list_temp[0].copy()
-            self.m_sResponse = self.response_list[0]
-
-
+            self.curr_response = self.response_list[0]
 
     # -------------
     def select_response(self):
         """ 隨機排列response_list後，挑第一個回應 """
         if self.bot_understand():
             random.shuffle(self.response_list)
-            self.m_sResponse = self.response_list[0]
+            self.curr_response = self.response_list[0]
 
     def save_prev_input(self):
-        self.m_sPrevInput = self.m_sInput
+        self.prev_input = self.curr_input
 
     def save_prev_response(self):
-        self.m_sPrevResponse = self.m_sResponse
+        self.prev_response = self.curr_response
     
     def save_prev_event(self):
-        self.m_sPrevEvent = self.m_sEvent
+        self.prev_event = self.curr_event
 
     def set_event(self, event):
-        self.m_sEvent = event
+        self.curr_event = event
 
     def save_input(self):
-        self.m_sInputBackup = self.m_sInput
+        self.backup_input = self.curr_input
 
     def set_input(self, input_str):
-        self.m_sInput = input_str
+        self.curr_input = input_str
 
     def restore_input(self):
-        """ 將先前保存m_sInputBackup的值恢復到變量m_sInput """
-        self.m_sInput = self.m_sInputBackup
+        """ 將先前保存backup_input的值恢復到變量curr_input """
+        self.curr_input = self.backup_input
 
     def print_response(self):
-        if len(self.m_sResponse) > 0:
-            print(self.m_sResponse)
+        if len(self.curr_response) > 0:
+            response_temp = self.curr_response
+            response_temp = response_temp.lower()
+            s = response_temp[:1].upper()
+            response_temp = s + response_temp[1:]
+            print(response_temp)
 
     def save_bot_response(self):
-        if self.m_sResponse:
-            self.vResponseLog.insert(self.m_sResponse)
+        if self.curr_response:
+            self.response_log.insert(self.curr_response)
 
     # --------------------------------
     def bot_repeat(self):
         """ 是否機器人已開始重複自己 """
-        return (len(self.m_sPrevResponse) > 0 and
-                self.m_sResponse == self.m_sPrevResponse)
+        return (len(self.prev_response) > 0 and
+                self.curr_response == self.prev_response)
         
-    #     pos = self.findRespPos(self.m_sResponse)
+    #     pos = self.findRespPos(self.curr_response)
     #     if pos > 0:
     #         return (pos + 1) < len(self.response_list)
     #     return False
 
     # def findRespPos(self, input_str):
     #     pos = -1
-    #     s = self.vResponseLog.copy()
+    #     s = self.response_log.copy()
     #     while len(s) == 0:
     #         pos += 1
     #         if s[0] == input_str:
@@ -354,56 +356,54 @@ class CBot(object):
     
     def user_repeat(self):
         """ 是否用戶已開始重複自己 """
-        return (len(self.m_sPrevInput) > 0 and
-                (self.m_sInput == self.m_sPrevInput or
-                 self.m_sInput.find(self.m_sPrevInput) != -1 or
-                 self.m_sPrevInput.find(self.m_sInput) != -1)
-        )
+        return (len(self.prev_input) > 0 and
+                (self.curr_input == self.prev_input or
+                 self.curr_input.find(self.prev_input) != -1 or
+                 self.prev_input.find(self.curr_input) != -1))
     
     def bot_understand(self):
         """ 是否機器人理解當前用戶輸入 """
         return len(self.response_list) > 0
         
     def null_input(self):
-        """ 是否當前用戶輸入(m_sInput)為null """
-        return (len(self.m_sInput) == 0 and len(self.m_sPrevInput) != 0)
+        """ 是否當前用戶輸入(curr_input)為null """
+        return (len(self.curr_input) == 0) and (len(self.prev_input) != 0)
 
     def null_input_repetition(self):
         """ 是否用戶重複了一些null輸入 """
-        return (len(self.m_sInput) == 0 and len(self.m_sPrevInput) == 0)
+        return (len(self.curr_input) == 0) and (len(self.prev_input) == 0)
 
     def user_want_to_quit(self):
         """ 是否用戶想退出當前會話('BYE') """
-        return self.m_sInput.find("BYE") != -1
+        return self.curr_input.find("BYE") != -1
         
     def same_event(self):
-        """ 是否當前event(m_sEvent)與前一個(m_sPrevEvent)相同 """
-        return (len(self.m_sEvent) > 0 and self.m_sEvent == self.m_sPrevEvent)
+        """ 是否當前event(curr_event)與前一個(prev_event)相同 """
+        return (len(self.curr_event) > 0) and (self.curr_event == self.prev_event)
 
     def no_response(self):
         """ 是否對當前輸入沒有回應response """
         return len(self.response_list) == 0
 
     def same_input(self):
-        """ 是否當前input(m_sInput)與前一個(m_sPrevInput)相同 """
-        return (len(self.m_sInput) > 0 and self.m_sInput == self.m_sPrevInput)
+        """ 是否當前input(curr_input)與前一個(prev_input)相同 """
+        return (len(self.curr_input) > 0) and (self.curr_input == self.prev_input)
 
     def similar_input(self):
         """ 是否當前和以前的輸入相似
         (e.g.:'how are you'和'how are you doing'相似)
         """
-        return (len(self.m_sInput) > 0 and
-                (self.m_sInput.find(self.m_sPrevInput) != -1 or
-                 self.m_sPrevInput.find(self.m_sInput) != -1)
-        )
+        return (len(self.curr_input) > 0 and
+                (self.curr_input.find(self.prev_input) != -1 or
+                 self.prev_input.find(self.curr_input) != -1))
     
     def bot_quit(self):
-        return self.m_bQuitProgram
+        return self.is_quit_program
 
     # ------------------------
     def update_unkown_input_list(self):
         """ 添加輸入到未知列表 """
-        self.list_unknown_input.append(self.m_sInput)
+        self.list_unknown_input.append(self.curr_input)
 
     def save_unknown_input(self):
         """ 保存保存未知輸入 """
@@ -423,9 +423,9 @@ class CBot(object):
             logtext = "\n\n--------------------\n"
             logtext += "Conversation log - " + str(now_time) + "\n\n"
         elif log_str == "CHATTERBOT":
-            logtext = self.m_sResponse + "\n"
+            logtext = self.curr_response + "\n"
         elif log_str == "USER":
-            logtext = ">" + self.m_sInput + "\n"
+            logtext = ">" + self.curr_input + "\n"
 
         with open("log.txt", "a") as f:
             f.write(logtext)
