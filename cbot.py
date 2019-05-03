@@ -7,25 +7,34 @@ from pygame import mixer
 
 
 class CBot(object):
-    def __init__(self, bot_name):
-        self.m_sInput = ""      # 輸入
-        self.m_sResponse = ""   # 回應
+    """對話機器人
+
+    signon() -> 登錄
+    get_input() -> 讀取使用者輸入
+    respond() -> 對話回應
+    bot_quit() -> 保存使用者輸入到
+    save_unknown_input() -> 保存未知輸入
+    """
+    def __init__(self, bot_name="Chatterbot"):
+        self.m_sInput = ""      # 當前輸入
+        self.m_sResponse = ""   # 當前回應
         self.m_sPreviousInput = ""      # 前一個輸入
         self.m_sPreviousResponse = ""   # 前一個回應
-        self.m_sContext = ""
-        self.m_sPrevContext = ""
+        self.m_sContext = ""        # 當前上下文
+        self.m_sPrevContext = ""    # 前一個上下文
         self.m_sEvent = ""
         self.response_list = []     # 回應列表
-        self.bot_name = bot_name
         self.m_bQuitProgram = 0     # 是否結束程式
         self.m_sKeyWord = ""
         self.vResponseLog = []
         self.list_unknown_input = []
+        self.bot_name = bot_name
 
         with open('KnowledgeBase.json', 'r') as file:
             self.Knowledge_Base = json.load(file)
 
     def signon(self):
+        """ 登錄 """
         self.handle_event("SIGNON**")
         self.select_response()
         self.save_log()
@@ -38,9 +47,85 @@ class CBot(object):
         self.m_sInput = input("> ")
         # sInput = " How   are# you?"        
         self.m_sInput = self.preprocess_input(self.m_sInput)
+        self.save_log("USER")
+    
+    def respond(self):
+        """ 處理機器人的所有響應，無論是用於事件還是僅用於當前用戶輸入 """
+        self.save_prev_response()
+        self.set_event("BOT UNDERSTAND**")
+
+        if self.null_input():
+            self.handle_event("NULL INPUT**")
+        elif self.null_input_repetition():
+            self.handle_event("NULL INPUT REPETITION**")
+        elif self.user_repeat():
+            self.handle_user_repetition()
+        else:
+            self.find_match()
+        
+        if self.user_want_to_quit():
+            self.m_bQuitProgram = 1
+        
+        if not self.bot_understand():
+            self.handle_event("BOT DON'T UNDERSTAND**")
+            self.update_unkown_input_list()
+        
+        if len(self.response_list) > 0:
+            self.select_response()
+            # self.save_bot_response()
+            self.preprocess_response()
+            if self.bot_repeat():
+                self.handle_repetition()
+
+            self.save_log("CHATTERBOT")
+            # self.word_to_sound(self.m_sResponse)
+            self.print_response()
+    
+
+    def handle_repetition(self):
+        """ 處理程序的重複 """
+        if len(self.response_list) > 0:
+            self.response_list = self.response_list.pop(0)
+        
+        if self.no_response:
+            self.save_input()
+            self.set_input(self.m_sEvent)
+
+            self.find_match()
+            self.restore_input()
+
+        self.select_response()
+
+        # if len(self.response_list) > 1:
+        #     s = self.vResponseLog.copy()
+
+    def handle_user_repetition(self):
+        """ 處理用戶的重複 """
+        if self.same_input():
+            self.handle_event("REPETITION T1**")
+        elif self.similar_input():
+            self.handle_event("REPETITION T2**")
+
+    def handle_event(self, event):
+        """ 處理事件
+        
+        Args:
+            event: (string)事件名稱
+        """
+        self.save_prev_event()
+        self.set_event(event)
+
+        self.save_input()
+        event = " " + event + " "
+        self.set_input(event)
+
+        if not self.same_event():
+            self.find_match()
+
+        self.restore_input()
 
     def cleanString(self, text):
-        """ 刪除標點符號、冗餘空格 """
+        """ 刪除標點符號、重複空格 """
         # text = re.sub("[?!@#$%^&*()/_\+-=~:.\'\"！？，。、￥…（）：]+", "", text)
         text = re.sub("[?!.;,*~]+", "", text)
 
@@ -53,15 +138,14 @@ class CBot(object):
         return temp
 
     def preprocess_input(self, text):
-        """ 對輸入預處理，刪除標點符號、冗餘空格，及將輸入轉換為大寫 """
+        """ 對輸入預處理，刪除標點符號、重複空格，及將輸入轉換為大寫 """
         temp = self.cleanString(text)
-        self.m_sInput = self.m_sInput.rstrip(". ")
         temp = temp.upper()
         text = " " + temp + " "
         return text
 
-
     def preprocess_response(self):
+        """ 對回應預處理，針對有*星號的回應 """
         if self.m_sResponse.find("*") != -1:
             self.find_subject()
             self.m_sSubject = self.transpose(self.m_sSubject)
@@ -127,6 +211,14 @@ class CBot(object):
         return str_input
 
     def wrong_location(self, keyword, firstChar, lastChar, pos):
+        """ 是否輸入中的keyWord與資料庫中的keyWord位置不同
+        
+        Args:
+            keyword: (list)預處理過的keyWord
+            firstChar: (string)keyWord第一個字元
+            lastChar: (string)keyWord最後一個字元
+            pos: (int)輸入字串中keyWord出現的位置
+        """
         bWrongPos = False
         pos += len(keyword)
         if ( (firstChar == '_' and lastChar == '_' and self.m_sInput != keyword) or
@@ -137,6 +229,11 @@ class CBot(object):
 
 
     def wrong_context(self, contextList):
+        """ 是否回應的上文在上一次回應中
+        
+        Args:
+            contextList: (list)回應的context列表
+        """
         bWrongContext = True
         if len(contextList) == 0:
             bWrongContext = False
@@ -194,79 +291,7 @@ class CBot(object):
             self.response_list = response_list_temp[0].copy()
             self.m_sResponse = self.response_list[0]
 
-    def respond(self):
-        """ 處理機器人的所有響應，無論是用於事件還是僅用於當前用戶輸入 """
-        self.save_prev_response()
-        self.set_event("BOT UNDERSTAND**")
 
-        if self.null_input():
-            self.handle_event("NULL INPUT**")
-        elif self.null_input_repetition():
-            self.handle_event("NULL INPUT REPETITION**")
-        elif self.user_repeat():
-            self.handle_user_repetition()
-        else:
-            self.find_match()
-        
-        if self.user_want_to_quit():
-            self.m_bQuitProgram = 1
-        
-        if not self.bot_understand():
-            self.handle_event("BOT DON'T UNDERSTAND**")
-            self.update_unkown_input_list()
-        
-        if len(self.response_list) > 0:
-            self.select_response()
-            # self.save_bot_response()
-            self.preprocess_response()
-            if self.bot_repeat():
-                self.handle_repetition()
-
-            self.save_log("CHATTERBOT")
-            # self.word_to_sound(self.m_sResponse)
-            self.print_response()
-    
-
-
-    def handle_repetition(self):
-        """ 處理程序的重複 """
-        if len(self.response_list) > 0:
-            self.response_list = self.response_list.pop(0)
-        
-        if self.no_response:
-            self.save_input()
-            self.set_input(self.m_sEvent)
-
-            self.find_match()
-            self.restore_input()
-
-        self.select_response()
-
-        # if len(self.response_list) > 1:
-        #     s = self.vResponseLog.copy()
-
-
-    def handle_user_repetition(self):
-        """ 處理用戶的重複 """
-        if self.same_input():
-            self.handle_event("REPETITION T1**")
-        elif self.similar_input():
-            self.handle_event("REPETITION T2**")
-
-
-    def handle_event(self, event):
-        """ 處理事件 """
-        self.save_prev_event()
-        self.set_event(event)
-
-        self.save_input()
-        event = " " + event + " "
-        self.set_input(event)
-
-        if not self.same_event():
-            self.find_match()
-
-        self.restore_input()
 
     # -------------
     def select_response(self):
@@ -283,8 +308,6 @@ class CBot(object):
     
     def save_prev_event(self):
         self.m_sPrevEvent = self.m_sEvent
-
-
 
     def set_event(self, event):
         self.m_sEvent = event
@@ -379,15 +402,22 @@ class CBot(object):
 
     # ------------------------
     def update_unkown_input_list(self):
+        """ 添加輸入到未知列表 """
         self.list_unknown_input.append(self.m_sInput)
 
     def save_unknown_input(self):
+        """ 保存保存未知輸入 """
         with open("unknown.txt", "a") as f:
             for line in self.list_unknown_input:
                 f.write(line + "\n")
 
 
     def save_log(self, log_str=""):
+        """保存Log檔
+
+        Args:
+            log_str: (string)''->對話開頭；'CHATTERBOT'->機器人；'USER'->使用者
+        """
         now_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         if log_str == "":
             logtext = "\n\n--------------------\n"
@@ -400,10 +430,11 @@ class CBot(object):
         with open("log.txt", "a") as f:
             f.write(logtext)
 
-
     def word_to_sound(self, text):
         """ 文字轉語音播放
-        param text: string 文字
+
+        Args:
+            text: (string)待轉語音的文字
         """
         tts = gTTS(text)
         tts.save("wordToSound.mp3")
@@ -411,7 +442,9 @@ class CBot(object):
 
     def play_sound(self, file_name):
         """ 播放錄音
-        param file_name: string 要播放音檔名
+        
+        Args:
+            file_name: (string)要播放的音檔名
         """
         mixer.init()
         mixer.music.load(file_name)
@@ -421,56 +454,25 @@ class CBot(object):
         mixer.music.stop()
         mixer.quit()
 
-'''
+
 """Fetches rows from a Bigtable.
 
-        Retrieves rows pertaining to the given keys from the Table instance
-        represented by big_table.
+Retrieves rows pertaining to the given keys from the Table instance
+represented by big_table.
 
-        Args:
-            keys: A sequence of strings representing the key of each table row
-                to fetch.
+Args:
+    keys: A sequence of strings representing the key of each table row
+        to fetch.
 
-        Returns:
-            A dict mapping keys to the corresponding table row data
-            fetched. Each row is represented as a tuple of strings. For
-            example:
+Returns:
+    A dict mapping keys to the corresponding table row data
+    fetched. Each row is represented as a tuple of strings. For
+    example:
 
-            {'Serak': ('Rigel VII', 'Preparer'),
-            'Zim': ('Irk', 'Invader'),
-            'Lrrr': ('Omicron Persei 8', 'Emperor')}
+    {'Serak': ('Rigel VII', 'Preparer'),
+    'Zim': ('Irk', 'Invader'),
+    'Lrrr': ('Omicron Persei 8', 'Emperor')}
 
-            If a key from the keys argument is missing from the dictionary,
-            then that row was not found in the table.
-        """
-
-def respond(self):
-    """ 在影像中尋找aruco tag
-        param image: numpy.ndarray 輸入影像
-        return image_markers: numpy.ndarray 經過標記aruco tag的影像
-        return max_id: int 最接近的aruco tag的ID        
-        """
-        self.m_sPreviousInput = self.m_sInput
-        self.m_sPreviousResponse = self.m_sResponse
-
-        self.get_input()
-        self.m_sInput = self.preprocess_input(self.m_sInput)
-        print(self.m_sInput)
-
-        responses = self.find_match(self.m_sInput)
-        print(":", end="")
-    
-
-        if (self.m_sInput == self.m_sPreviousInput) and (len(self.m_sInput) > 0):
-            print("YOU ARE REPEATING YOURSELF.")
-        elif self.m_sInput == "BYE":
-            print("IT WAS NICE TALKING TO YOU USER, SEE YOU NEXT TIME!")
-        elif len(responses) == 0:
-            print("I'M NOT SURE IF I UNDERSTAND WHAT YOU ARE TALKING ABOUT.")
-        else:
-            self.m_sResponse = random.choice(responses)
-            if self.m_sResponse == self.m_sPreviousResponse:
-                responses.remove(self.m_sPreviousResponse)
-                self.m_sResponse = random.choice(responses)
-            print(self.m_sResponse)
-'''
+    If a key from the keys argument is missing from the dictionary,
+    then that row was not found in the table.
+"""

@@ -7,7 +7,6 @@ try:
     bot.signon()
     while not bot.bot_quit():
         bot.get_input()
-        bot.save_log("USER")
         bot.respond()
     
     bot.save_unknown_input()
