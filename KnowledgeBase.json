@@ -1,14 +1,14 @@
 [
   {
     "problem": ["GO TO"], 
-    "reply": ["OK, GO TO*"
+    "reply": ["OK, GO TO(*TR)"
     ],
     "action": "location"
   },
   {
     "problem": ["WHAT IS YOUR NAME"], 
-    "reply": ["MY NAME IS CHATBOT.",
-      "YOU CAN CALL ME CHATBOT.",
+    "reply": ["MY NAME IS(*NAME).",
+      "YOU CAN CALL ME(*NAME).",
       "WHY DO YOU WANT TO KNOW MY NAME?"
     ]
   },
@@ -17,8 +17,8 @@
     "reply": ["YES, THAT'S MY NAME.",
       "YES IT IS."
     ],
-    "context": ["MY NAME IS CHATBOT",
-      "YOU CAN CALL ME CHATBOT"
+    "context": ["MY NAME IS(*NAME)",
+      "YOU CAN CALL ME(*NAME)"
     ]
   },
   {
@@ -41,7 +41,7 @@
       "IS THERE ANY REASON WHY YOU WANT THIS?",
       "IS THIS A WISH?",
       "WHAT ELSE YOU WANT?",
-      "SO, YOU WANT*."
+      "SO, YOU WANT(*TR)."
     ]
   },
   {
@@ -62,8 +62,8 @@
   },
   {
     "problem": ["_BECAUSE"],
-    "reply": ["SO, IT'S BECAUSE*, WELL I DIDN'T KNOW THAT.",
-      "IS IT REALLY BECAUSE*?",
+    "reply": ["SO, IT'S BECAUSE(*TR), WELL I DIDN'T KNOW THAT.",
+      "IS IT REALLY BECAUSE(*TR)?",
       "IS THESE THESE REAL REASON?",
       "THANKS FOR EXPLANING THAT TO ME."
     ]
@@ -71,7 +71,7 @@
   {
     "problem": ["_I HATE"],
     "reply": ["WHY DO YOU HATE IT?",
-      "WHY DO YOU HATE*?",
+      "WHY DO YOU HATE(*TR)?",
       "THERE MUST A GOOD REASON FOR YOU TO HATE IT.",
       "HATERED IS NOT A GOOD THING BUT IT COULD BE JUSTIFIED WHEN IT IS SOMETHING BAD."
     ]
@@ -86,7 +86,7 @@
   },
   {
     "problem": ["_I MEAN"],
-    "reply": ["SO, YOU MEAN*.",
+    "reply": ["SO, YOU MEAN(*TR).",
       "SO, THAT'S WHAT YOU MEAN.",
       "I THINK THAT I DIDN'T CATCH IT THE FIRST TIME.",
       "OH, I DIDN'T KNOW MEANT THAT."
@@ -94,7 +94,7 @@
   },
   {
     "problem": ["I DIDN'T MEAN"],
-    "reply": ["OK, YOU DIDN'T MEAN*.",
+    "reply": ["OK, YOU DIDN'T MEAN(*TR).",
       "OK, WHAT DID YOU MEAN THEN?",
       "SO I GUESS THAT I MISSUNDESTOOD."
     ]
@@ -295,15 +295,15 @@
   {
     "problem": ["_WHO IS"],
     "reply": ["I DON'T THINK I KNOW WHO.",
-      "I DON'T THINK I KNOW WHO*.",
+      "I DON'T THINK I KNOW WHO(*TR).",
       "DID YOU ASK SOMEONE ELSE ABOUT IT?",
       "WOULD THAT CHANGE ANYTHING AT ALL IF I TOLD YOU WHO."
     ]
   },
   {
     "problem": ["_WHAT"],
-    "reply": ["SHOULD I KNOW WHAT*?",
-      "I DON'T KNOW WHAT*.",
+    "reply": ["SHOULD I KNOW WHAT(*TR)?",
+      "I DON'T KNOW WHAT(*TR).",
       "I DON'T KNOW.",
       "I DON'T THINK I KNOW.",
       "I HAVE NO IDEA."
@@ -312,7 +312,7 @@
   {
     "problem": ["_WHERE"],
     "reply": ["WHERE? WELL,I REALLY DON'T KNOW.",
-      "SO, YOU ARE ASKING ME WHERE*?",
+      "SO, YOU ARE ASKING ME WHERE(*TR)?",
       "DOES THAT MATERS TO YOU TO KNOW WHERE?",
       "PERHAPS,SOMEONE ELSE KNOWS WHERE."
     ]
@@ -320,7 +320,7 @@
   {
     "problem": ["_WHY"],
     "reply": ["I DON'T THINK I KNOW WHY.",
-      "I DON'T THINK I KNOW WHY*.",
+      "I DON'T THINK I KNOW WHY(*TR).",
       "WHY ARE YOU ASKING ME THIS?",
       "SHOULD I KNOW WHY.",
       "THIS WOULD BE DIFFICULT TO ANSWER."
@@ -331,7 +331,7 @@
     "reply": ["I DON'T THINK I DO",
       "I WOULDN'T THINK SO.",
       "WHY DO YOU WANT TO KNOW?",
-      "WHY DO YOU WANT TO KNOW*?"
+      "WHY DO YOU WANT TO KNOW(*TR)?"
     ]
   },
   {
@@ -339,7 +339,7 @@
     "reply": ["I THINK NOT.",
       "I'M NOT SURE.",
       "I DON'T THINK THAT I CAN DO THAT.",
-      "I DON'T THINK THAT I CAN*.",
+      "I DON'T THINK THAT I CAN(*TR).",
       "I WOULDN'T THINK SO."
     ]
   },
@@ -348,13 +348,13 @@
     "reply": ["WHAT MAKES YOU THINK THAT?",
       "IS THIS A COMPLIMENT?",
       "ARE YOU MAKING FUN OF ME?",
-      "SO, YOU THINK THAT I'M*."
+      "SO, YOU THINK THAT I'M(*TR)."
     ]
   },
   {
     "problem": ["_DID YOU"],
     "reply": ["I DON'T THINK SO.",
-      "YOU WANT TO KNOW IF DID*?",
+      "YOU WANT TO KNOW IF DID(*TR)?",
       "ANYWAY, I WOULDN'T REMEMBER EVEN IF I DID."
     ]
   },
@@ -362,14 +362,14 @@
     "problem": ["_COULD YOU"],
     "reply": ["ARE YOU ASKING ME FOR A FEVER?",
       "WELL,LET ME THINK ABOUT IT.",
-      "SO, YOU ARE ASKING ME I COULD*.",
+      "SO, YOU ARE ASKING ME I COULD(*TR).",
       "SORRY,I DON'T THINK THAT I COULD DO THIS."
     ]
   },
   {
     "problem": ["_WOULD YOU"],
     "reply": ["IS THAT AN INVITATION?",
-      "I DON'T THINK THAT I WOULD*.",
+      "I DON'T THINK THAT I WOULD(*TR).",
       "I WOULD HAVE TO THINK ABOUT IT FIRST."
     ]
   },
@@ -384,9 +384,9 @@
   {
     "problem": ["_HOW"],
     "reply": ["I DON'T THINK I KNOW HOW.",
-      "I DON'T THINK I KNOW HOW*.",
+      "I DON'T THINK I KNOW HOW(*TR).",
       "WHY DO YOU WANT TO KNOW HOW?",
-      "WHY DO YOU WANT TO KNOW HOW*?"
+      "WHY DO YOU WANT TO KNOW HOW(*TR)?"
     ]
   },
   {
@@ -635,15 +635,15 @@
   },
   {
     "problem": ["DO YOU SPEAK"],
-    "reply": ["NO I DON'T*.",
-    "SORRY BUT I DON'T*.",
-    "WHY DO YOU WANT TO KNOW IF I SPEAK*?"
+    "reply": ["NO I DON'T(*TR).",
+    "SORRY BUT I DON'T(*TR).",
+    "WHY DO YOU WANT TO KNOW IF I SPEAK(*TR)?"
     ]
   },
   {
     "problem": ["CAN YOU SPEAK"],
     "reply": ["I WOULDN'T THINK SO.",
-    "NO I CAN'T*."
+    "NO I CAN'T(*TR)."
     ]
   },
   {

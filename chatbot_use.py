@@ -1,4 +1,4 @@
-from cbot import ChatBot
+from chatbot import ChatBot
 
 
 try:

@@ -78,6 +78,7 @@ class ChatBot(object):
             self.select_response()
             self.save_bot_response()
             self.preprocess_response()
+            # self.curr_response = self._preprocess_response()
             if self.bot_repeat():
                 self.handle_repetition()
 
@@ -88,20 +89,6 @@ class ChatBot(object):
 
     def handle_repetition(self):
         """ 處理程序的重複 """
-        # if len(self.response_list) > 0:
-        #     self.response_list.pop(0)
-        
-        # if self.no_response:
-        #     self.save_input()
-        #     self.set_input(self.curr_event)
-
-        #     self.find_match()
-        #     self.restore_input()
-
-        # self.select_response()
-
-        # if len(self.response_list) > 1:
-        #     s = self.response_log.copy()
         if len(self.response_log) > 10:
             self.response_log = self.response_log[-10:]
 
@@ -157,12 +144,21 @@ class ChatBot(object):
         text = " " + temp + " "
         return text
 
-    def preprocess_response(self):
+    def preprocess_response(self, response=None):
         """ 對回應預處理，針對有*星號的回應 """
-        if self.curr_response.find("*") != -1:
-            self.find_subject()
-            self.subject = self.transpose(self.subject)
-            self.curr_response = self.curr_response.replace("*", self.subject)
+        if response is None:
+            response = self.curr_response
+        pattern = r"\(\*\w+\)"
+        if re.search(pattern, response):
+            pattern_str = re.findall(pattern, response)[0][2:-1]
+            if pattern_str == "TR":
+                self.find_subject()
+                self.subject = self.transpose(self.subject)
+                response = re.sub(pattern, self.subject, response)
+            elif pattern_str == "NAME":
+                response = re.sub(pattern, " " + self.bot_name, response)
+        self.curr_response = response
+        return response
 
     def find_subject(self):
         """ 擷取去掉keyword後的輸入 """
@@ -251,7 +247,9 @@ class ChatBot(object):
         else:
             temp_context = self.prev_response
             temp_context = self.clean_string(temp_context)
+
             for context in context_list:
+                context = self.preprocess_response(context)
                 if context == temp_context:
                     self.prev_context = self.curr_context
                     self.curr_context = temp_context
@@ -325,8 +323,7 @@ class ChatBot(object):
             寫入到檔案
             學習成功
         """
-    
-    
+        
     # -------------
     def select_response(self):
         """ 隨機排列response_list後，挑第一個回應 """
@@ -438,7 +435,6 @@ class ChatBot(object):
         with open("unknown.txt", "a") as f:
             for line in self.list_unknown_input:
                 f.write(line + "\n")
-
 
     def save_log(self, log_str=""):
         """保存Log檔
