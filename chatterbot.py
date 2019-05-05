@@ -2,12 +2,14 @@ from cbot import ChatBot
 
 
 try:
-    bot = ChatBot("Chatterbot15")
+    bot = ChatBot("Chatbot")
 
     bot.signon()
     while not bot.bot_quit():
         bot.get_input()
         bot.respond()
+        if bot.action == "location":
+            print(bot.subject.strip())
     
     bot.save_unknown_input()
 
