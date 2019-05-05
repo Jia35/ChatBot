@@ -15,7 +15,7 @@ class ChatBot(object):
     bot_quit() -> 保存使用者輸入到
     save_unknown_input() -> 保存未知輸入
     """
-    def __init__(self, bot_name="Chatterbot"):
+    def __init__(self, bot_name="Chatbot"):
         self.curr_input = ""        # 當前輸入
         self.prev_input = ""        # 前一個輸入
         self.backup_input = ""      # 備份輸入
@@ -26,6 +26,7 @@ class ChatBot(object):
         self.subject = ""
         self.curr_event = ""
         self.prev_event = ""
+        self.action = ""
         self.response_list = []     # 回應列表
         self.is_quit_program = False     # 是否結束程式
         self.curr_keyword = ""
@@ -71,10 +72,11 @@ class ChatBot(object):
         if not self.bot_understand():
             self.handle_event("BOT DON'T UNDERSTAND**")
             self.update_unkown_input_list()
+            self.learn_keyword()
         
         if len(self.response_list) > 0:
             self.select_response()
-            # self.save_bot_response()
+            self.save_bot_response()
             self.preprocess_response()
             if self.bot_repeat():
                 self.handle_repetition()
@@ -86,20 +88,29 @@ class ChatBot(object):
 
     def handle_repetition(self):
         """ 處理程序的重複 """
-        if len(self.response_list) > 0:
-            self.response_list = self.response_list.pop(0)
+        # if len(self.response_list) > 0:
+        #     self.response_list.pop(0)
         
-        if self.no_response:
-            self.save_input()
-            self.set_input(self.curr_event)
+        # if self.no_response:
+        #     self.save_input()
+        #     self.set_input(self.curr_event)
 
-            self.find_match()
-            self.restore_input()
+        #     self.find_match()
+        #     self.restore_input()
 
-        self.select_response()
+        # self.select_response()
 
         # if len(self.response_list) > 1:
         #     s = self.response_log.copy()
+        if len(self.response_log) > 10:
+            self.response_log = self.response_log[-10:]
+
+        if len(self.response_list) < 2:
+            self.response_log.remove(self.curr_response)
+        else:
+            self.response_list.pop(0)
+            self.select_response()
+            self.response_log[-1] = self.curr_response
 
     def handle_user_repetition(self):
         """ 處理用戶的重複 """
@@ -281,16 +292,41 @@ class ChatBot(object):
                         best_keyword = keyword
                         response_list_temp[:] = []
                         response_list_temp.append(knowledge["reply"])
+                        self.action = knowledge.get("action", "")
 
                     elif len(keyword) == len(best_keyword):
                         response_list_temp.append(knowledge["reply"])
+                        self.action = knowledge.get("action", "")
         
         if len(response_list_temp) > 0:
             self.curr_keyword = best_keyword
             random.shuffle(response_list_temp)
             self.response_list = response_list_temp[0].copy()
-            self.curr_response = self.response_list[0]
+            self.curr_response = self.response_list[0]             
 
+    def learn_keyword(self):
+        """ 查找當前輸入的回應 """
+        pass
+        """
+            沒找到請輸入
+            is_keyword = F
+            while not is_keyword:
+                關鍵字是(keyword)
+                if keyword == "exit":
+                if keyword != "":
+                    is_keyword = T
+
+            is_resp = F
+            while not is_resp:
+                回應是(resp)
+                if resp != "":
+                    is_resp = T
+            
+            寫入到檔案
+            學習成功
+        """
+    
+    
     # -------------
     def select_response(self):
         """ 隨機排列response_list後，挑第一個回應 """
@@ -330,30 +366,22 @@ class ChatBot(object):
 
     def save_bot_response(self):
         if self.curr_response:
-            self.response_log.insert(self.curr_response)
+            # self.response_log.insert()
+            self.response_log.append(self.curr_response)
 
     # --------------------------------
     def bot_repeat(self):
         """ 是否機器人已開始重複自己 """
-        return (len(self.prev_response) > 0 and
-                self.curr_response == self.prev_response)
-        
-    #     pos = self.findRespPos(self.curr_response)
-    #     if pos > 0:
-    #         return (pos + 1) < len(self.response_list)
-    #     return False
+        # return (len(self.prev_response) > 0 and
+        #         self.curr_response == self.prev_response)
+        if len(self.response_log) > 1:
+            temp = self.response_log[:-1][::-1]
+            if self.curr_response in temp:
+                pos = temp.index(self.curr_response) + 1
+                if pos > 0:
+                    return pos < len(self.response_list)
+        return False
 
-    # def findRespPos(self, input_str):
-    #     pos = -1
-    #     s = self.response_log.copy()
-    #     while len(s) == 0:
-    #         pos += 1
-    #         if s[0] == input_str:
-    #             break
-    #         s.pop(0)
-    #     return pos
-
-    
     def user_repeat(self):
         """ 是否用戶已開始重複自己 """
         return (len(self.prev_input) > 0 and
