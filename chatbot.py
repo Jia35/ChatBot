@@ -438,7 +438,7 @@ class ChatBot(object):
 
     def save_unknown_input(self):
         """ 保存保存未知輸入 """
-        with open("unknown.txt", "a") as f:
+        with open(os.path.abspath(__package__) + "/unknown.txt", "a") as f:
             for line in self.list_unknown_input:
                 f.write(line + "\n")
 
@@ -457,7 +457,7 @@ class ChatBot(object):
         elif log_str == "USER":
             logtext = ">" + self.curr_input + "\n"
 
-        with open("log.txt", "a") as f:
+        with open(os.path.abspath(__package__) + "/log.txt", "a") as f:
             f.write(logtext)
 
     def word_to_sound(self, text):
