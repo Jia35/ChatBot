@@ -12,7 +12,7 @@ class ChatBot(object):
     signon() -> 登錄
     get_input() -> 讀取使用者輸入
     respond() -> 對話回應
-    bot_quit() -> 保存使用者輸入到
+    bot_quit() -> 判斷是否結束聊天機器人
     save_unknown_input() -> 保存未知輸入
     """
     def __init__(self, bot_name="Chatbot"):
@@ -53,7 +53,7 @@ class ChatBot(object):
         self.save_log("USER")
     
     def respond(self):
-        """ 處理機器人的所有響應，無論是用於事件還是僅用於當前用戶輸入 """
+        """ 處理機器人的所有響應，無論是用於事件還是當前用戶輸入 """
         self.save_prev_response()
         self.set_event("BOT UNDERSTAND**")
 
@@ -61,8 +61,8 @@ class ChatBot(object):
             self.handle_event("NULL INPUT**")
         elif self.null_input_repetition():
             self.handle_event("NULL INPUT REPETITION**")
-        elif self.user_repeat():
-            self.handle_user_repetition()
+        # elif self.user_repeat():
+        #     self.handle_user_repetition()
         else:
             self.find_match()
         
@@ -74,12 +74,12 @@ class ChatBot(object):
             self.update_unkown_input_list()
             self.learn_keyword()
         
-        if len(self.response_list) > 0:
+        if self.bot_understand():
             self.select_response()
             self.save_bot_response()
             self.preprocess_response()
             # self.curr_response = self._preprocess_response()
-            if self.bot_repeat():
+            while self.bot_repeat():
                 self.handle_repetition()
 
             self.save_log("CHATTERBOT")
@@ -300,7 +300,8 @@ class ChatBot(object):
             self.curr_keyword = best_keyword
             random.shuffle(response_list_temp)
             self.response_list = response_list_temp[0].copy()
-            self.curr_response = self.response_list[0]             
+            self.curr_response = self.response_list[0]
+            self.response_list_len = len(self.response_list)
 
     def learn_keyword(self):
         """ 查找當前輸入的回應 """
@@ -368,7 +369,7 @@ class ChatBot(object):
 
     # --------------------------------
     def bot_repeat(self):
-        """ 是否機器人已開始重複自己 """
+        """ 是否機器人重複回覆 """
         # return (len(self.prev_response) > 0 and
         #         self.curr_response == self.prev_response)
         if len(self.response_log) > 1:
@@ -376,11 +377,11 @@ class ChatBot(object):
             if self.curr_response in temp:
                 pos = temp.index(self.curr_response) + 1
                 if pos > 0:
-                    return pos < len(self.response_list)
+                    return pos < self.response_list_len
         return False
 
     def user_repeat(self):
-        """ 是否用戶已開始重複自己 """
+        """ 是否使用者重複輸入 """
         return (len(self.prev_input) > 0 and
                 (self.curr_input == self.prev_input or
                  self.curr_input.find(self.prev_input) != -1 or
@@ -399,8 +400,8 @@ class ChatBot(object):
         return (len(self.curr_input) == 0) and (len(self.prev_input) == 0)
 
     def user_want_to_quit(self):
-        """ 是否用戶想退出當前會話('BYE') """
-        return self.curr_input.find("BYE") != -1
+        """ 是否用戶想退出當前會話('BYE'、'SEE YOU') """
+        return (self.curr_input.find("BYE") != -1) or (self.curr_input.find("SEE YOU") != -1)
         
     def same_event(self):
         """ 是否當前event(curr_event)與前一個(prev_event)相同 """

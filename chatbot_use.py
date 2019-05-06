@@ -2,7 +2,7 @@ from chatbot import ChatBot
 
 
 try:
-    bot = ChatBot("Chatbot")
+    bot = ChatBot("Yunbot")
 
     bot.signon()
     while not bot.bot_quit():
