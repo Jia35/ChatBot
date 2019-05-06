@@ -1,3 +1,4 @@
+import os
 import re
 import time
 import json
@@ -34,7 +35,7 @@ class ChatBot(object):
         self.list_unknown_input = []
         self.bot_name = bot_name
 
-        with open('KnowledgeBase.json', 'r') as file:
+        with open(os.path.abspath(__package__) + '/KnowledgeBase.json', 'r') as file:
             self.knowledge_base = json.load(file)
 
     def signon(self):
@@ -45,10 +46,14 @@ class ChatBot(object):
         self.save_log("CHATTERBOT")
         self.print_response()
 
-    def get_input(self):
+    def get_input(self, str_input=None):
         """ 取得用戶輸入 """
         self.save_prev_input()
-        self.curr_input = input("> ")      
+        if str_input is None:
+            self.curr_input = input("> ")
+        else:
+            self.curr_input = str_input
+            print("> " + str_input)
         self.curr_input = self.preprocess_input(self.curr_input)
         self.save_log("USER")
     
@@ -478,26 +483,3 @@ class ChatBot(object):
             continue
         mixer.music.stop()
         mixer.quit()
-
-
-"""Fetches rows from a Bigtable.
-
-Retrieves rows pertaining to the given keys from the Table instance
-represented by big_table.
-
-Args:
-    keys: A sequence of strings representing the key of each table row
-        to fetch.
-
-Returns:
-    A dict mapping keys to the corresponding table row data
-    fetched. Each row is represented as a tuple of strings. For
-    example:
-
-    {'Serak': ('Rigel VII', 'Preparer'),
-    'Zim': ('Irk', 'Invader'),
-    'Lrrr': ('Omicron Persei 8', 'Emperor')}
-
-    If a key from the keys argument is missing from the dictionary,
-    then that row was not found in the table.
-"""
