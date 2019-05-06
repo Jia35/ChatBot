@@ -6,7 +6,18 @@
     "action": "location"
   },
   {
-    "problem": ["WHAT IS YOUR NAME"], 
+    "problem": ["WHAT SHOULD WE DO", "WHAT CAN YOU DO", "WHAT CAN YOU HELP"], 
+    "reply": ["YOU CAN ORDER ME TO GO TO THE LOCATION ON THE MAP, FOR EXAMPLE, GO TO LIBRARY."
+    ]
+  },
+  {
+    "problem": ["NICE TO MEET YOU"], 
+    "reply": ["NICE TO MEET YOU TOO",
+      "THANK YOU. IT'S VERY NICE TO MEET YOU AS WELL."
+    ]
+  },
+  {
+    "problem": ["WHAT IS YOUR NAME", "WHAT'S YOUR NAME"], 
     "reply": ["MY NAME IS(*NAME).",
       "YOU CAN CALL ME(*NAME).",
       "WHY DO YOU WANT TO KNOW MY NAME?"
@@ -25,7 +36,9 @@
     "problem": ["HI", "HELLO"], 
     "reply": ["HI THERE!",
       "HOW ARE YOU?",
-      "HI!"
+      "HI!",
+      "WHAT'S UP?",
+      "HEY"
     ]
   },
   {
@@ -128,10 +141,19 @@
     ]
   },
   {
-    "problem": ["HOW ARE YOU", "HOW DO YOU DO"],
+    "problem": ["HOW ARE YOU", "HOW DO YOU DO", "WHAT'S UP", "ARE YOU ALRIGHT"],
     "reply": ["I'M DOING FINE!",
+      "I'M VERY WELL. THANK YOU.",
       "I'M DOING WELL AND YOU?",
-      "WHY DO YOU WANT TO KNOW HOW AM I DOING?"
+      "WHY DO YOU WANT TO KNOW HOW AM I DOING?",
+      "PRETTY GOOD!",
+      "NEVER BETTER!",
+      "SO FAR SO GOOD.",
+      "JUST SO-SO.",
+      "I'M DOING OK.",
+      "NOT BAD.",
+      "AS USUAL.",
+      "NOTHING SPECIAL."
     ]
   },
   {
@@ -245,10 +267,29 @@
     ]
   },  
   {
-    "problem": ["BYE", "GOODBYE"],
+    "problem": ["BYE", "GOODBYE", "SEE YOU"],
     "reply": ["IT WAS NICE TALKING TO YOU USER, SEE YOU NEXT TIME!",
       "BYE USER!",
-      "OK, BYE!"
+      "OK, BYE!",
+      "GOOD BYE.",
+      "SEE YOU.",
+      "BYE-BYE.",
+      "SEE YOU LATER."
+    ]
+  },
+  {
+    "problem": ["GOOD MORNING"],
+    "reply": ["GOOD MORNING."
+    ]
+  },
+  {
+    "problem": ["GOOD AFTERNOON"],
+    "reply": ["GOOD AFTERNOON."
+    ]
+  },
+  {
+    "problem": ["GOOD EVENING"],
+    "reply": ["GOOD EVENING."
     ]
   },
   {
@@ -574,7 +615,7 @@
     ]
   },
   {
-    "problem": [	"ARE YOU REALLY INTELLIGENT"],
+    "problem": ["ARE YOU REALLY INTELLIGENT"],
     "reply": ["OF COURSE I'M INTELLIGENT.",
     "WHAT DO YOU THINK?",
     "DO YOU HAVE ANY DOUBTS ABOUT IT?"
@@ -865,7 +906,17 @@
   {
     "problem": ["DO YOU KNOW ME"],
     "reply": ["YES I THINK THAT I DO KNOW YOU A LITTLEBIT.",
-    "YOU ARE THE PERSON CURRENTLY CHATING WITH ME."
+    "YOU ARE THE PERSON CURRENTLY CHATTING WITH ME."
+    ]
+  },
+  {
+    "problem": ["siri"],
+    "reply": ["Wait! who is siri?"
+    ]
+  },
+  {
+    "problem": ["TESTING", "TEST"],
+    "reply": ["UH-OH, I GET NERVOUS WITH TESTS."
     ]
   }
 ]
