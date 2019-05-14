@@ -55,6 +55,7 @@ class ChatBot(object):
             self.curr_input = str_input
             print("> " + str_input)
         self.curr_input = self.preprocess_input(self.curr_input)
+        self.curr_input = " " + self.curr_input + " "
         self.save_log("USER")
     
     def respond(self):
@@ -98,7 +99,9 @@ class ChatBot(object):
             self.response_log = self.response_log[-10:]
 
         if len(self.response_list) < 2:
+            self.response_log = self.response_log[::-1]
             self.response_log.remove(self.curr_response)
+            self.response_log = self.response_log[::-1]
         else:
             self.response_list.pop(0)
             self.select_response()
@@ -146,8 +149,7 @@ class ChatBot(object):
         """ 對輸入預處理，刪除標點符號、重複空格，及將輸入轉換為大寫 """
         temp = self.clean_string(text)
         temp = temp.upper()
-        text = " " + temp + " "
-        return text
+        return temp
 
     def preprocess_response(self, response=None):
         """ 對回應預處理，針對有*星號的回應 """
@@ -168,10 +170,12 @@ class ChatBot(object):
     def find_subject(self):
         """ 擷取去掉keyword後的輸入 """
         self.subject = ""
-        self.curr_input = self.curr_input.rstrip()
-        pos = self.curr_input.find(self.curr_keyword)
+        # self.curr_input = self.curr_input.rstrip()
+
+        input_temp = self.curr_input.rstrip()
+        pos = input_temp.find(self.curr_keyword)
         if pos != -1:
-            self.subject = self.curr_input[pos + len(self.curr_keyword) - 1:]
+            self.subject = input_temp[pos + len(self.curr_keyword) - 1:]
 
     def transpose(self, str_input):
         """轉換字串
@@ -398,11 +402,13 @@ class ChatBot(object):
         
     def null_input(self):
         """ 是否當前用戶輸入(curr_input)為null """
-        return (len(self.curr_input) == 0) and (len(self.prev_input) != 0)
+        return ((len(self.curr_input) == 0 or self.curr_input == "  ") and
+                (len(self.prev_input) != 0))
 
     def null_input_repetition(self):
         """ 是否用戶重複了一些null輸入 """
-        return (len(self.curr_input) == 0) and (len(self.prev_input) == 0)
+        return ((len(self.curr_input) == 0 or self.curr_input == "  ") and
+                (len(self.prev_input) == 0))
 
     def user_want_to_quit(self):
         """ 是否用戶想退出當前會話('BYE'、'SEE YOU') """

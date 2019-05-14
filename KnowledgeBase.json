@@ -6,6 +6,24 @@
     "action": "location"
   },
   {
+    "problem": ["GO FORWARD"], 
+    "reply": ["OK, GO FORWARD."
+    ],
+    "action": "move"
+  },
+  {
+    "problem": ["TURN RIGHT"], 
+    "reply": ["OK, TURN RIGHT."
+    ],
+    "action": "move"
+  },
+  {
+    "problem": ["TURN LEFT"], 
+    "reply": ["OK, TURN LEFT."
+    ],
+    "action": "move"
+  },
+  {
     "problem": ["WHAT SHOULD WE DO", "WHAT CAN YOU DO", "WHAT CAN YOU HELP"], 
     "reply": ["YOU CAN ORDER ME TO GO TO THE LOCATION ON THE MAP, FOR EXAMPLE, GO TO LIBRARY."
     ]
