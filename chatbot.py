@@ -176,7 +176,7 @@ class ChatBot(object):
         pos = input_temp.find(self.curr_keyword)
         if pos != -1:
             self.subject = input_temp[pos + len(self.curr_keyword) - 1:]
-
+            
     def transpose(self, str_input):
         """轉換字串
 
@@ -409,7 +409,7 @@ class ChatBot(object):
         """ 是否用戶重複了一些null輸入 """
         return ((len(self.curr_input) == 0 or self.curr_input == "  ") and
                 (len(self.prev_input) == 0))
-
+    
     def user_want_to_quit(self):
         """ 是否用戶想退出當前會話('BYE'、'SEE YOU') """
         return (self.curr_input.find("BYE") != -1) or (self.curr_input.find("SEE YOU") != -1)

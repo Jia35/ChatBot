@@ -1,27 +1,116 @@
 [
   {
-    "problem": ["GO TO"], 
-    "reply": ["OK, GO TO(*TR)"
+    "problem": ["GO TO THE", "GO TO"], 
+    "reply": ["OK, GO TO THE(*TR)."
     ],
     "action": "location"
   },
   {
-    "problem": ["GO FORWARD"], 
+    "problem": ["GO TO THE TRANSLATION", "GO TO TRANSLATION"], 
+    "reply": ["DID YOU SAY 'GO TO THE TRAIN STATION'"
+    ]
+  },
+  {
+    "problem": ["YES"], 
+    "reply": ["GO TO THE TRAIN STATION."
+    ],
+    "context": ["DID YOU SAY 'GO TO THE TRAIN STATION'"
+    ],
+    "action": "location"
+  },
+
+  {
+    "problem": ["GO TO THE PARKER", "GO TO PARKER", "GO TO THE PACK", "GO TO PACK"], 
+    "reply": ["DID YOU SAY 'GO TO THE PARK'"
+    ]
+  },
+  {
+    "problem": ["YES"], 
+    "reply": ["GO TO THE PARK."
+    ],
+    "context": ["DID YOU SAY 'GO TO THE PARK'"
+    ],
+    "action": "location"
+  },
+  
+
+  {
+    "problem": ["GO FORWARD", "FORWARD"], 
     "reply": ["OK, GO FORWARD."
     ],
     "action": "move"
   },
   {
-    "problem": ["TURN RIGHT"], 
+    "problem": ["CALL FOR WHAT", "CALL FOR WATER", "GOFORTH WATER", "COCOA WATER"], 
+    "reply": ["DID YOU SAY 'GO FORWARD'"
+    ]
+  },
+  {
+    "problem": ["YES"], 
+    "reply": ["OK, GO FORWARD."
+    ],
+    "context": ["DID YOU SAY 'GO FORWARD'"
+    ],
+    "action": "move"
+  },
+
+  {
+    "problem": ["TURN RIGHT", "RIGHT", "MAKE A RIGHT TURN"], 
     "reply": ["OK, TURN RIGHT."
     ],
     "action": "move"
   },
   {
-    "problem": ["TURN LEFT"], 
+    "problem": ["ANDROID", "CONROY", "SUNRISE"], 
+    "reply": ["DID YOU SAY 'TURN RIGHT'"
+    ]
+  },
+  {
+    "problem": ["YES"], 
+    "reply": ["OK, TURN RIGHT."
+    ],
+    "context": ["DID YOU SAY 'TURN RIGHT'"
+    ],
+    "action": "move"
+  },
+
+  {
+    "problem": ["TURN LEFT", "LEFT", "MAKE A LEFT TURN"], 
     "reply": ["OK, TURN LEFT."
     ],
     "action": "move"
+  },
+  {
+    "problem": ["CONDUCTOR", "TURN NETFLIX", "TURN LAPTOP", "10 NEPETA",
+      "10 NEPTUNE", "10 LEPTA", "10 LIFTER", "KINECTA", "HYUNDAI"], 
+    "reply": ["DID YOU SAY 'TURN LEFT'"
+    ]
+  },
+  {
+    "problem": ["YES"], 
+    "reply": ["OK, TURN LEFT."
+    ],
+    "context": ["DID YOU SAY 'TURN LEFT'"
+    ],
+    "action": "move"
+  },
+  {
+    "problem": ["NO"], 
+    "reply": ["COULD YOU SAY THAT AGAIN?"
+    ],
+    "context": ["DID YOU SAY 'GO FORWARD'",
+      "DID YOU SAY 'TURN RIGHT'",
+      "DID YOU SAY 'TURN LEFT'",
+      "DID YOU SAY 'GO TO THE TRAIN STATION'",
+      "DID YOU SAY 'GO TO THE PARK'"
+    ]
+  },
+
+
+  {
+    "problem": ["ROBOT", "Yunbot"], 
+    "reply": ["HI! WHAT CAN I DO FOR YOU?"
+    ]
   },
   {
     "problem": ["WHAT SHOULD WE DO", "WHAT CAN YOU DO", "WHAT CAN YOU HELP"], 
@@ -262,7 +351,7 @@
     "reply": ["HUH?",
       "WHAT THAT SUPPOSE TO MEAN?",
       "AT LIST TAKE SOME TIME TO ENTER SOMETHING MEANINGFUL.",
-      "HOW CAN I SPEAK TO YOU IF YOU DON'T WANT TO SAY ANYTHING?"
+      "HOW CAN I DO ANYTHING FOR YOU IF YOU DON'T SAY ANYTHING?"
     ]
   },
   {
